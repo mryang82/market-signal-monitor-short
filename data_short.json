@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-05-19T06:46:23.127840",
-  "level": "NEUTRAL",
-  "score": 0,
+  "timestamp": "2026-05-19T08:47:02.449665",
+  "level": "CAUTION_DOWN",
+  "score": -4,
   "buy_score": 0,
-  "sell_score": -3,
+  "sell_score": -4,
   "pillars": {
     "A_price_momentum": 0,
     "B_drawdown": 0,
     "C_credit_rotation": 3,
-    "D_macro_stress": 0
+    "D_macro_stress": 1
   },
   "triggers_buy": [],
   "triggers_sell": [
@@ -16,6 +16,11 @@
       "name": "XLP/XLY 20d > +4% (defensive rotation)",
       "weight": 3,
       "pillar": "C"
+    },
+    {
+      "name": "VIX 18-25 (elevated)",
+      "weight": 1,
+      "pillar": "D"
     }
   ],
   "context_alerts": [],
@@ -25,20 +30,20 @@
     "SPX_20d_chg": 4.13425058891026,
     "SPX_pct_above_MA50": 6.758950968073751,
     "SPX_pct_above_MA200": 9.106018152841354,
-    "VIX": 17.81999969482422,
-    "VIX_5d_chg": -3.046787222589986,
+    "VIX": 18.09000015258789,
+    "VIX_5d_chg": 0.5558664966203608,
     "VIX3M": 20.920000076293945,
-    "VIX_VIX3M_ratio": 0.851816425900372,
+    "VIX_VIX3M_ratio": 0.8647227574863662,
     "VIX9D": 16.860000610351562,
-    "VIX9D_VIX_ratio": 0.9461279965817572,
+    "VIX9D_VIX_ratio": 0.9320066593774811,
     "VVIX": 91.18000030517578,
     "SKEW": 138.39999389648438,
     "HYG": 79.54000091552734,
     "HYG_5d_chg": -0.55014056381395,
     "XLP_XLY_ratio": 0.7384800700760414,
     "XLP_XLY_20d_chg": 7.442175851542876,
-    "DXY": 99.1240005493164,
-    "DXY_20d_chg": 0.7255328326767785,
+    "DXY": 99.16899871826172,
+    "DXY_20d_chg": 0.7712580305944794,
     "TNX": 4.623000144958496,
     "TNX_5d_chg_bp": 21.300029754638672,
     "KRE": 67.91999816894531,
