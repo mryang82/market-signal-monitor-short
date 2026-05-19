@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-05-19T06:37:39.791884",
+  "level": "NEUTRAL",
+  "score": 0,
+  "buy_score": 0,
+  "sell_score": -3,
+  "pillars": {
+    "A_price_momentum": 0,
+    "B_drawdown": 0,
+    "C_credit_rotation": 3,
+    "D_macro_stress": 0
+  },
+  "triggers_buy": [],
+  "triggers_sell": [
+    {
+      "name": "XLP/XLY 20d > +4% (defensive rotation)",
+      "weight": 3,
+      "pillar": "C"
+    }
+  ],
+  "context_alerts": [],
+  "indicators": {
+    "SPX": 7403.0498046875,
+    "SPX_5d_chg": -0.13206867096628994,
+    "SPX_20d_chg": 4.13425058891026,
+    "SPX_pct_above_MA50": 6.758950968073751,
+    "SPX_pct_above_MA200": 9.106018152841354,
+    "VIX": 17.81999969482422,
+    "VIX_5d_chg": -3.046787222589986,
+    "VIX3M": 20.920000076293945,
+    "VIX_VIX3M_ratio": 0.851816425900372,
+    "VIX9D": 16.860000610351562,
+    "VIX9D_VIX_ratio": 0.9461279965817572,
+    "VVIX": 91.18000030517578,
+    "SKEW": 138.39999389648438,
+    "HYG": 79.54000091552734,
+    "HYG_5d_chg": -0.55014056381395,
+    "XLP_XLY_ratio": 0.7384800700760414,
+    "XLP_XLY_20d_chg": 7.442175851542876,
+    "DXY": 99.08799743652344,
+    "DXY_20d_chg": 0.6889480227456835,
+    "TNX": 4.623000144958496,
+    "TNX_5d_chg_bp": 21.300029754638672,
+    "KRE": 67.91999816894531,
+    "KRE_5d_chg": -0.9190442812042177,
+    "KRE_20d_chg": -3.8505113876058594,
+    "IWM_SPX_ratio": 0.03727787986053573,
+    "IWM_SPX_20d_chg": -4.4479300175667476,
+    "SOXX": 495.8699951171875,
+    "SOXX_20d_chg": 18.757037388072373,
+    "NDX": 28994.369140625,
+    "RUT": 2775.10009765625
+  },
+  "backtest": {
+    "PANIC_BUY": {
+      "hit_rate_3m_up10": 55.6,
+      "n": 293
+    },
+    "SHIFT_UP": {
+      "hit_rate_3m_up10": 48.9,
+      "n": 689
+    },
+    "CAUTION_UP": {
+      "hit_rate_3m_up10": 31.1,
+      "n": 753
+    },
+    "CAUTION_DOWN": {
+      "hit_rate_3m_dn10": 31.8,
+      "n": 877
+    },
+    "SHIFT_DOWN": {
+      "hit_rate_3m_dn10": 42.8,
+      "n": 334
+    }
+  }
+}
