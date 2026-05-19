@@ -719,9 +719,11 @@ def main():
     print(f"실행 시각: {datetime.now().isoformat()}")
     print("=" * 70)
     
-    # 1. yfinance fetch
-    market_data = fetch_yfinance(period="6mo")
-    if not market_data.get("SPX") or not market_data.get("VIX"):
+    # 1. yfinance fetch (1년치 — MA200 계산 위해)
+    market_data = fetch_yfinance(period="1y")
+    spx = market_data.get("SPX")
+    vix = market_data.get("VIX")
+    if spx is None or len(spx) == 0 or vix is None or len(vix) == 0:
         print("\n❌ 필수 데이터 (SPX, VIX) 없음 — 종료")
         sys.exit(1)
     
