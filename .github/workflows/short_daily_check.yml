@@ -2,10 +2,10 @@ name: v12 Short Signal Check
 
 on:
   schedule:
-    # KST 07:30 = UTC 22:30 (전일)
-    # KST 22:30 = UTC 13:30
-    - cron: '30 22 * * *'  # KST 07:30
-    - cron: '30 13 * * *'  # KST 22:30
+    # KST 07:30 = UTC 22:30 (전일) — 미 시장 마감 후
+    - cron: '30 22 * * 1-5'
+    # KST 22:30 = UTC 13:30 (당일) — 미 시장 개장 전
+    - cron: '30 13 * * 1-5'
   workflow_dispatch:  # 수동 실행 허용
 
 permissions:
