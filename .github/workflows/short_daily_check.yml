@@ -6,7 +6,7 @@ on:
     - cron: '30 22 * * 1-5'
     # KST 22:30 = UTC 13:30 (당일) — 미 시장 개장 전
     - cron: '30 13 * * 1-5'
-  workflow_dispatch:  # 수동 실행 허용
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -37,14 +37,30 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python auto_signal_short.py
       
-      - name: Commit JSON outputs
+      - name: Verify outputs
+        run: |
+          for f in data_short.json data_unified.json; do
+            if [ ! -f "$f" ]; then
+              echo "❌ $f 생성 안 됨!"
+              exit 1
+            fi
+            echo "✓ $f 존재"
+          done
+          python -c "import json; d=json.load(open('data_unified.json')); print(f\"unified timestamp: {d.get('timestamp','N/A')}\"); st=d.get('short_term',{}); print(f\"short_term.level: {st.get('level','N/A')}\"); lt=d.get('long_term',{}); print(f\"long_term.fg: {lt.get('fg','N/A')}\")"
+      
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add previous_signal_short.json data_short.json data_unified.json || true
+          
+          # 명시적으로 모든 데이터 파일 staging
+          git add data_short.json data_unified.json previous_signal_short.json 2>/dev/null || true
+          
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+            echo "변경 사항 없음 — commit 생략"
           else
-            git commit -m "📊 v12 short signal update $(date -u +%Y-%m-%d_%H:%M)"
-            git push
+            git commit -m "📊 v12 short signal update $(date -u +%Y-%m-%dT%H:%MZ)"
+            echo "Push 시도..."
+            git push origin main
+            echo "✓ Push 완료"
           fi
