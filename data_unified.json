@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-06-05T19:24:39.432427",
+  "timestamp": "2026-06-05T20:33:12.819888",
   "short_term": {
-    "timestamp": "2026-06-05T19:24:39.431879",
+    "timestamp": "2026-06-05T20:33:12.819349",
     "level": "CAUTION_DOWN",
-    "score": -4,
+    "score": -3,
     "buy_score": 0,
-    "sell_score": -4,
+    "sell_score": -3,
     "pillars": {
       "A_price_momentum": 0,
       "B_drawdown": 0,
-      "C_credit_rotation": 3,
+      "C_credit_rotation": 2,
       "D_macro_stress": 1
     },
     "triggers_buy": [],
@@ -20,8 +20,8 @@
         "pillar": "C"
       },
       {
-        "name": "XLP/XLY 20d > +4% (defensive rotation)",
-        "weight": 3,
+        "name": "XLP/XLY 20d > +2%",
+        "weight": 1,
         "pillar": "C"
       },
       {
@@ -30,38 +30,46 @@
         "pillar": "D"
       }
     ],
-    "context_alerts": [],
+    "context_alerts": [
+      {
+        "id": "vix9d_bw",
+        "level": "medium",
+        "title": "\ub2e8\uae30 \ubc31\uc6cc\ub370\uc774\uc158",
+        "desc": "VIX9D/VIX = 1.11 (\ub2e8\uae30 \ud328\ub2c9 \uc784\ubc15)",
+        "backtest": "\ub2e8\ub3c5 \ud6a8\uacfc \uc57d\ud568 (\ucc38\uace0\uc6a9)"
+      }
+    ],
     "indicators": {
-      "SPX": 7378.22021484375,
-      "SPX_5d_chg": -2.6627736744799013,
-      "SPX_20d_chg": 0.5603071553860417,
-      "SPX_pct_above_MA50": 3.1075616479309343,
-      "SPX_pct_above_MA200": 7.581954142817682,
-      "VIX": 20.209999084472656,
-      "VIX_5d_chg": 31.919056704031767,
-      "VIX3M": 21.389999389648438,
-      "VIX_VIX3M_ratio": 0.9448340187542579,
-      "VIX9D": 20.739999771118164,
-      "VIX9D_VIX_ratio": 1.0262246764302283,
-      "VVIX": 99.48999786376953,
+      "SPX": 7383.740234375,
+      "SPX_5d_chg": -2.5899507748118222,
+      "SPX_20d_chg": 0.6355414047581887,
+      "SPX_pct_above_MA50": 3.1831097185713197,
+      "SPX_pct_above_MA200": 7.662008368977369,
+      "VIX": 21.510000228881836,
+      "VIX_5d_chg": 40.40470402978451,
+      "VIX3M": 21.81999969482422,
+      "VIX_VIX3M_ratio": 0.9857928748726832,
+      "VIX9D": 23.920000076293945,
+      "VIX9D_VIX_ratio": 1.1120409029180838,
+      "VVIX": 102.04000091552734,
       "SKEW": 142.14999389648438,
-      "HYG": 79.40499877929688,
-      "HYG_5d_chg": -1.126881841375471,
-      "XLP_XLY_ratio": 0.7309102009781924,
-      "XLP_XLY_20d_chg": 4.336162637848506,
-      "DXY": 100.08999633789062,
-      "DXY_20d_chg": 1.8727698095578837,
+      "HYG": 79.43000030517578,
+      "HYG_5d_chg": -1.0957505667658962,
+      "XLP_XLY_ratio": 0.726449608201433,
+      "XLP_XLY_20d_chg": 3.699420760673555,
+      "DXY": 100.06800079345703,
+      "DXY_20d_chg": 1.850382486979174,
       "TNX": 4.5360002517700195,
       "TNX_5d_chg_bp": 8.300018310546875,
-      "KRE": 70.30500030517578,
-      "KRE_5d_chg": 0.9984193201125535,
-      "KRE_20d_chg": 0.5075101821609307,
-      "IWM_SPX_ratio": 0.03807015871975922,
-      "IWM_SPX_20d_chg": -1.0398471709237578,
-      "SOXX": 544.6947021484375,
-      "SOXX_20d_chg": 10.62936029610655,
-      "NDX": 28987.86328125,
-      "RUT": 2826.544921875
+      "KRE": 70.16999816894531,
+      "KRE_5d_chg": 0.8044786003212234,
+      "KRE_20d_chg": 0.31451212337565426,
+      "IWM_SPX_ratio": 0.03814462385679048,
+      "IWM_SPX_20d_chg": -0.8462813548393844,
+      "SOXX": 539.77001953125,
+      "SOXX_20d_chg": 9.629140383094903,
+      "NDX": 28957.599609375,
+      "RUT": 2833.50146484375
     },
     "backtest": {
       "PANIC_BUY": {
@@ -87,24 +95,24 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-06-05T19:24:07.416456",
+    "timestamp": "2026-06-05T20:33:06.717834",
     "level": "NEUTRAL",
     "score": 1.0,
     "regime": "BULL_MID",
-    "spx": 7375,
+    "spx": 7384,
     "spx_high": 7610,
     "spx_ma200": 6858,
-    "ndx": 25676,
+    "ndx": 25709,
     "ndx_high": 27094,
-    "vix": 20.2,
+    "vix": 21.5,
     "vix_3m": 20.3,
     "vix_3m_ago": 24.9,
     "fg": 42,
     "fg_1m_ago": 69,
-    "rsi_w": 62.9,
+    "rsi_w": 63.2,
     "hy": 274,
     "hy_6m_ago": 285,
-    "yc": 0.41
+    "yc": 0.42
   },
   "conflict": {
     "type": "short_only_sell",
