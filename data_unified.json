@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-06-12T23:58:00.186299",
+  "timestamp": "2026-06-13T00:21:54.658037",
   "short_term": {
-    "timestamp": "2026-06-12T23:58:00.185778",
+    "timestamp": "2026-06-13T00:21:54.657451",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -77,7 +77,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-06-12T23:51:39.328542",
+    "timestamp": "2026-06-13T00:07:43.179710",
     "level": "NEUTRAL",
     "score": 1.0,
     "regime": "BULL_MID",
