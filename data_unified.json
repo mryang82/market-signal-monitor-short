@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-20T22:50:26.342288",
+  "timestamp": "2026-08-20T23:27:55.875135",
   "short_term": {
-    "timestamp": "2026-08-20T22:50:26.341648",
+    "timestamp": "2026-08-20T23:27:55.874581",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -71,18 +71,18 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-08-20T22:45:22.787227",
+    "timestamp": "2026-08-20T23:09:39.043254",
     "level": "NEUTRAL",
     "score": 0.0,
     "regime": "BULL_MID",
     "spx": 7641,
     "spx_high": 7799,
-    "spx_ma200": 7082,
+    "spx_ma200": 7092,
     "ndx": 26067,
     "ndx_high": 27094,
     "vix": 16.0,
-    "vix_3m": 17.0,
-    "vix_3m_ago": 18.1,
+    "vix_3m": 16.9,
+    "vix_3m_ago": 16.7,
     "fg": 52,
     "fg_1m_ago": 43,
     "rsi_w": 57.6,
