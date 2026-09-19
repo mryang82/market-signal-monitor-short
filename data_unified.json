@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-19T00:26:12.115418",
+  "timestamp": "2026-09-19T01:01:29.341049",
   "short_term": {
-    "timestamp": "2026-09-19T00:26:12.114859",
+    "timestamp": "2026-09-19T01:01:29.340565",
     "level": "CAUTION_DOWN",
     "score": -2,
     "buy_score": 0,
@@ -82,7 +82,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-09-19T00:21:34.011436",
+    "timestamp": "2026-09-19T00:41:02.383788",
     "level": "WATCH",
     "score": 2.0,
     "regime": "BULL_MID",
