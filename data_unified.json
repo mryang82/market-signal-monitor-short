@@ -1,16 +1,16 @@
 {
-  "timestamp": "2026-09-25T18:22:17.671017",
+  "timestamp": "2026-09-26T00:42:49.522745",
   "short_term": {
-    "timestamp": "2026-09-25T18:22:17.670447",
-    "level": "CAUTION_DOWN",
-    "score": -3,
+    "timestamp": "2026-09-26T00:42:49.522128",
+    "level": "NEUTRAL",
+    "score": 0,
     "buy_score": 0,
-    "sell_score": -3,
+    "sell_score": -2,
     "pillars": {
       "A_price_momentum": 0,
       "B_drawdown": 0,
       "C_credit_rotation": 2,
-      "D_macro_stress": 1
+      "D_macro_stress": 0
     },
     "triggers_buy": [],
     "triggers_sell": [
@@ -18,11 +18,6 @@
         "name": "HYG 5d < -0.8%",
         "weight": 2,
         "pillar": "C"
-      },
-      {
-        "name": "SKEW > 145",
-        "weight": 1,
-        "pillar": "D"
       }
     ],
     "context_alerts": [
@@ -30,41 +25,41 @@
         "id": "iwm_spx",
         "level": "high",
         "title": "\uc2dc\uc7a5 \ud3ed \uc57d\ud654",
-        "desc": "IWM/SPX 20\uc77c -6.0% (\uc18c\ud615\uc8fc\ub9cc \uc57d\uc138)",
+        "desc": "IWM/SPX 20\uc77c -6.1% (\uc18c\ud615\uc8fc\ub9cc \uc57d\uc138)",
         "backtest": "\ub2e8\ub3c5 -15% \uc801\uc911\ub960 26%"
       }
     ],
     "indicators": {
-      "SPX": 7742.3798828125,
-      "SPX_5d_chg": 1.2009657252793904,
-      "SPX_20d_chg": 0.14732457411286148,
-      "SPX_pct_above_MA50": 1.3922705579473504,
-      "SPX_pct_above_MA200": 7.455482898030286,
-      "VIX": 14.989999771118164,
-      "VIX_5d_chg": 1.2153905901518103,
-      "VIX3M": 17.959999084472656,
-      "VIX_VIX3M_ratio": 0.8346325465059623,
-      "VIX9D": 12.890000343322754,
-      "VIX9D_VIX_ratio": 0.8599066404362752,
-      "VVIX": 87.76000213623047,
-      "SKEW": 146.0399932861328,
-      "HYG": 77.75,
-      "HYG_5d_chg": -0.9932494478817055,
-      "XLP_XLY_ratio": 0.739918627608489,
-      "XLP_XLY_20d_chg": 0.7778169836948345,
-      "DXY": 101.04000091552734,
-      "DXY_20d_chg": 1.8959229366551034,
-      "TNX": 5.199999809265137,
-      "TNX_5d_chg_bp": 20.199966430664062,
-      "KRE": 71.66500091552734,
-      "KRE_5d_chg": -1.4914076762510775,
-      "KRE_20d_chg": -3.611294705713164,
-      "IWM_SPX_ratio": 0.03643517955595705,
-      "IWM_SPX_20d_chg": -6.047156656357622,
-      "SOXX": 574.1799926757812,
-      "SOXX_20d_chg": 9.278115196990932,
-      "NDX": 30637.751953125,
-      "RUT": 2837.923583984375
+      "SPX": 7743.41015625,
+      "SPX_5d_chg": 1.2144324717338728,
+      "SPX_20d_chg": 0.1606511132270727,
+      "SPX_pct_above_MA50": 1.4054891245167678,
+      "SPX_pct_above_MA200": 7.469705093370482,
+      "VIX": 14.869999885559082,
+      "VIX_5d_chg": 0.4051280502525234,
+      "VIX3M": 17.93000030517578,
+      "VIX_VIX3M_ratio": 0.8293362873656293,
+      "VIX9D": 12.760000228881836,
+      "VIX9D_VIX_ratio": 0.8581035862195022,
+      "VVIX": 87.83999633789062,
+      "SKEW": 144.91000366210938,
+      "HYG": 77.88999938964844,
+      "HYG_5d_chg": -1.0543722283840595,
+      "XLP_XLY_ratio": 0.740572853283603,
+      "XLP_XLY_20d_chg": 0.5743845821038818,
+      "DXY": 101.03500366210938,
+      "DXY_20d_chg": 1.8908833509013512,
+      "TNX": 5.184000015258789,
+      "TNX_5d_chg_bp": 18.599987030029297,
+      "KRE": 70.94000244140625,
+      "KRE_5d_chg": -2.4745607303073958,
+      "KRE_20d_chg": -4.88066411944329,
+      "IWM_SPX_ratio": 0.036559612564486706,
+      "IWM_SPX_20d_chg": -6.124968327905322,
+      "SOXX": 566.0700073242188,
+      "SOXX_20d_chg": 9.831195287148242,
+      "NDX": 30608.134765625,
+      "RUT": 2837.552001953125
     },
     "backtest": {
       "PANIC_BUY": {
@@ -90,30 +85,30 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-09-25T18:05:59.423033",
+    "timestamp": "2026-09-26T00:37:47.683057",
     "level": "NEUTRAL",
     "score": 0.5,
     "regime": "BULL_MID",
-    "spx": 7740,
+    "spx": 7743,
     "spx_high": 7799,
     "spx_ma200": 7205,
-    "ndx": 27080,
+    "ndx": 27069,
     "ndx_high": 27244,
-    "vix": 15.0,
+    "vix": 14.9,
     "vix_3m": 16.1,
     "vix_3m_ago": 16.5,
-    "fg": 38,
+    "fg": 37,
     "fg_1m_ago": 54,
-    "rsi_w": 59.8,
+    "rsi_w": 59.9,
     "hy": 280,
     "hy_6m_ago": 321,
-    "yc": 0.26
+    "yc": 0.31
   },
   "conflict": {
-    "type": "short_only_sell",
-    "title": "\ub2e8\uae30 \ub9e4\ub3c4",
-    "desc": "\ub2e8\uae30 CAUTION_DOWN \u2014 \ub2e8\uae30 \ube44\uc911 \uc870\uc808 (\uc801\uc911\ub960 32~43%)",
-    "level": "warn"
+    "type": "neutral",
+    "title": "\uc911\ub9bd",
+    "desc": "\uc591\ucabd \uc2e0\ud638 \uc5c6\uc74c \u2014 \ud604 \ud3ec\uc9c0\uc158 \uc720\uc9c0",
+    "level": "info"
   },
   "version": "v12"
 }
