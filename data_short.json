@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-10-21T00:42:12.480347",
+  "timestamp": "2026-10-21T01:23:33.115044",
   "level": "CAUTION_DOWN",
-  "score": -4,
+  "score": -2,
   "buy_score": 0,
-  "sell_score": -4,
+  "sell_score": -2,
   "pillars": {
     "A_price_momentum": 0,
     "B_drawdown": 0,
-    "C_credit_rotation": 3,
+    "C_credit_rotation": 1,
     "D_macro_stress": 1
   },
   "triggers_buy": [],
   "triggers_sell": [
     {
-      "name": "XLP/XLY 20d > +4% (defensive rotation)",
-      "weight": 3,
+      "name": "XLP/XLY 20d > +2%",
+      "weight": 1,
       "pillar": "C"
     },
     {
@@ -28,7 +28,7 @@
       "id": "soxx_20d",
       "level": "high",
       "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
-      "desc": "SOXX 20\uc77c -10.3% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
+      "desc": "SOXX 20\uc77c -12.7% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
       "backtest": "\ub2e8\ub3c5 -15% \uc801\uc911\ub960 28%"
     }
   ],
@@ -47,20 +47,20 @@
     "VVIX": 97.1500015258789,
     "SKEW": 160.39999389648438,
     "HYG": 76.83000183105469,
-    "HYG_5d_chg": -0.5951598900553856,
-    "XLP_XLY_ratio": 0.7619255616113607,
-    "XLP_XLY_20d_chg": 4.383435362175692,
-    "DXY": 101.78900146484375,
-    "DXY_20d_chg": 1.1819115395200752,
+    "HYG_5d_chg": -0.3372610185326308,
+    "XLP_XLY_ratio": 0.7597402597402597,
+    "XLP_XLY_20d_chg": 3.1568008036311213,
+    "DXY": 101.76899719238281,
+    "DXY_20d_chg": 1.1620265765336368,
     "TNX": 5.116999626159668,
     "TNX_5d_chg_bp": -10.000038146972656,
-    "KRE": 69.26000213623047,
-    "KRE_5d_chg": -0.43127578046646686,
-    "KRE_20d_chg": -3.792187537920444,
-    "IWM_SPX_ratio": 0.03527363455331744,
-    "IWM_SPX_20d_chg": -4.093700545007062,
-    "SOXX": 501.92999267578125,
-    "SOXX_20d_chg": -10.26388805078704,
+    "KRE": 70.62000274658203,
+    "KRE_5d_chg": 2.25891289188751,
+    "KRE_20d_chg": -0.8006737958653143,
+    "IWM_SPX_ratio": 0.03575721258474729,
+    "IWM_SPX_20d_chg": -3.331396444075685,
+    "SOXX": 500.010009765625,
+    "SOXX_20d_chg": -12.704706136591382,
     "NDX": 29490.283203125,
     "RUT": 2773.419677734375
   },
