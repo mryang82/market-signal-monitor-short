@@ -1,19 +1,24 @@
 {
-  "timestamp": "2026-10-23T01:19:54.722904",
+  "timestamp": "2026-10-23T17:55:53.632631",
   "short_term": {
-    "timestamp": "2026-10-23T01:19:54.722256",
-    "level": "NEUTRAL",
-    "score": 0,
+    "timestamp": "2026-10-23T17:55:53.632051",
+    "level": "CAUTION_DOWN",
+    "score": -4,
     "buy_score": 0,
-    "sell_score": -1,
+    "sell_score": -4,
     "pillars": {
       "A_price_momentum": 0,
       "B_drawdown": 0,
-      "C_credit_rotation": 0,
+      "C_credit_rotation": 3,
       "D_macro_stress": 1
     },
     "triggers_buy": [],
     "triggers_sell": [
+      {
+        "name": "XLP/XLY 20d > +4% (defensive rotation)",
+        "weight": 3,
+        "pillar": "C"
+      },
       {
         "name": "VIX 18-25 (elevated)",
         "weight": 1,
@@ -25,38 +30,46 @@
         "pillar": "D"
       }
     ],
-    "context_alerts": [],
+    "context_alerts": [
+      {
+        "id": "soxx_20d",
+        "level": "high",
+        "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
+        "desc": "SOXX 20\uc77c -16.2% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
+        "backtest": "\ub2e8\ub3c5 -15% \uc801\uc911\ub960 28%"
+      }
+    ],
     "indicators": {
-      "SPX": 7663.43017578125,
-      "SPX_5d_chg": -1.0411835936502523,
-      "SPX_20d_chg": -0.5282842793454035,
-      "SPX_pct_above_MA50": -0.5155692599595141,
-      "SPX_pct_above_MA200": 5.154216706263504,
-      "VIX": 19.030000686645508,
-      "VIX_5d_chg": 15.613619350667118,
-      "VIX3M": 20.1200008392334,
-      "VIX_VIX3M_ratio": 0.9458250443776114,
-      "VIX9D": 18.860000610351562,
-      "VIX9D_VIX_ratio": 0.9910667330446685,
-      "VVIX": 107.94000244140625,
+      "SPX": 7631.740234375,
+      "SPX_5d_chg": -0.3616414156015213,
+      "SPX_20d_chg": -1.442128463063097,
+      "SPX_pct_above_MA50": -0.8839189102185729,
+      "SPX_pct_above_MA200": 4.668337547199175,
+      "VIX": 20.110000610351562,
+      "VIX_5d_chg": 0.6003043552145426,
+      "VIX3M": 20.850000381469727,
+      "VIX_VIX3M_ratio": 0.9645084049122689,
+      "VIX9D": 19.90999984741211,
+      "VIX9D_VIX_ratio": 0.990054661518185,
+      "VVIX": 111.55999755859375,
       "SKEW": 152.38999938964844,
-      "HYG": 76.9800033569336,
-      "HYG_5d_chg": 0.22133290423576035,
-      "XLP_XLY_ratio": 0.7540033024388968,
-      "XLP_XLY_20d_chg": 1.213716191316161,
-      "DXY": 101.53800201416016,
-      "DXY_20d_chg": 0.24484262650923405,
-      "TNX": 4.953000068664551,
-      "TNX_5d_chg_bp": -13.600015640258789,
-      "KRE": 70.62000274658203,
-      "KRE_5d_chg": 3.034726879589922,
-      "KRE_20d_chg": 0.3410137859197082,
-      "IWM_SPX_ratio": 0.03564186601181216,
-      "IWM_SPX_20d_chg": -2.5761677058175114,
-      "SOXX": 510.3599853515625,
-      "SOXX_20d_chg": -9.785757657230377,
-      "NDX": 28958.6875,
-      "RUT": 2784.026123046875
+      "HYG": 76.98999786376953,
+      "HYG_5d_chg": 0.16913511889884436,
+      "XLP_XLY_ratio": 0.7780427078972926,
+      "XLP_XLY_20d_chg": 4.826227692956864,
+      "DXY": 101.84200286865234,
+      "DXY_20d_chg": 0.8636244799514081,
+      "TNX": 4.986000061035156,
+      "TNX_5d_chg_bp": -11.19999885559082,
+      "KRE": 72.58000183105469,
+      "KRE_5d_chg": 3.967919165354483,
+      "KRE_20d_chg": 1.4395509928235795,
+      "IWM_SPX_ratio": 0.03612020262698112,
+      "IWM_SPX_20d_chg": -0.8073402643098082,
+      "SOXX": 479.9800109863281,
+      "SOXX_20d_chg": -16.187047369390918,
+      "NDX": 29011.6875,
+      "RUT": 2773.25732421875
     },
     "backtest": {
       "PANIC_BUY": {
@@ -82,30 +95,30 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-23T00:59:53.912698",
+    "timestamp": "2026-10-23T17:52:03.227263",
     "level": "WATCH",
-    "score": 3.2,
+    "score": 2.7,
     "regime": "BULL_MID",
-    "spx": 7663,
+    "spx": 7635,
     "spx_high": 7819,
-    "spx_ma200": 7288,
-    "ndx": 26009,
+    "spx_ma200": 7291,
+    "ndx": 26005,
     "ndx_high": 27600,
-    "vix": 19.0,
+    "vix": 20.1,
     "vix_3m": 15.9,
-    "vix_3m_ago": 18.2,
+    "vix_3m_ago": 20.7,
     "fg": 20,
-    "fg_1m_ago": 35,
-    "rsi_w": 60.3,
-    "hy": 327,
+    "fg_1m_ago": 33,
+    "rsi_w": 58.7,
+    "hy": 340,
     "hy_6m_ago": 286,
     "yc": 0.32
   },
   "conflict": {
-    "type": "long_only_buy",
-    "title": "\uc7a5\uae30\ub9cc \ub9e4\uc218",
-    "desc": "\uc7a5\uae30 WATCH + \ub2e8\uae30 \uc911\ub9bd \u2014 \ubd84\ud560 \ub9e4\uc218 \uac00\ub2a5",
-    "level": "info"
+    "type": "conflict_buy_sell",
+    "title": "\u26a0\ufe0f \ucda9\ub3cc: \uc7a5\uae30 \ub9e4\uc218 + \ub2e8\uae30 \ub9e4\ub3c4",
+    "desc": "\uc7a5\uae30\ub294 WATCH\uc774\uc9c0\ub9cc \ub2e8\uae30 CAUTION_DOWN \u2014 \ubc31\ud14c\uc2a4\ud2b8 6M MDD-15% \uc801\uc911 50%, \uc9c4\uc785 \ubcf4\ub958 \uad8c\uace0",
+    "level": "danger"
   },
   "version": "v12"
 }
