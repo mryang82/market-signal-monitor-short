@@ -21,6 +21,7 @@ GitHub Actions Secrets 필요:
 
 import os
 import sys
+import html
 import json
 import requests
 from datetime import datetime
@@ -698,19 +699,19 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
         lines.append("")
         lines.append("📈 <b>매수 트리거:</b>")
         for t in short_sig["triggers_buy"][:5]:
-            lines.append(f"  • {t['name']}")
+            lines.append(f"  • {html.escape(t['name'])}")
     if short_sig["triggers_sell"]:
         lines.append("")
         lines.append("⚠️ <b>낙폭 위험 트리거 (매도 권고 아님):</b>")
         for t in short_sig["triggers_sell"][:5]:
-            lines.append(f"  • [{t['pillar']}] {t['name']}")
+            lines.append(f"  • [{t['pillar']}] {html.escape(t['name'])}")
     
     # 컨텍스트 알람
     if alerts:
         lines.append("")
         lines.append("⚠️ <b>위험 컨텍스트:</b>")
         for a in alerts:
-            lines.append(f"  • {a['title']}: {a['desc']}")
+            lines.append(f"  • {html.escape(a['title'])}: {html.escape(a['desc'])}")
     
     # 핵심 지표
     lines.append("")
