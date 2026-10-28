@@ -336,7 +336,7 @@ def compute_context_alerts(d):
 # 충돌 신호 (장기 + 단기 결합)
 # ──────────────────────────────────────────────────────────────
 
-LONG_BUY_LEVELS = {"CRASH_BUY", "STRONG_BUY", "BUY", "WATCH"}
+LONG_BUY_LEVELS = {"CRASH_BUY", "STRONG_BUY", "BUY"}  # WATCH는 관망 등급이라 매수로 보지 않음 (2026-10-28)
 LONG_SELL_LEVELS = {"CAUTION", "WARNING", "STRONG_SELL"}
 SHORT_BUY_LEVELS = {"PANIC_BUY", "SHIFT_UP", "CAUTION_UP"}
 SHORT_SELL_LEVELS = {"SHIFT_DOWN", "CAUTION_DOWN"}
@@ -355,9 +355,9 @@ def compute_conflict(long_level, short_level):
     if long_is_buy and short_is_buy:
         return {
             "type": "buy_agree",
-            "title": "✅ 매수 합의",
-            "desc": f"장기 {long_level} + 단기 {short_level} — 강한 매수 신뢰 (백테스트 12M+15% 적중률 55%)",
-            "level": "good",
+            "title": "장기·단기 매수 방향 일치",
+            "desc": f"장기 {long_level} + 단기 {short_level} — 참고용 (Walk-Forward 1/6 구간만 안정)",
+            "level": "info",
         }
     if long_is_sell and short_is_sell:
         return {
@@ -369,9 +369,9 @@ def compute_conflict(long_level, short_level):
     if long_is_buy and short_is_sell:
         return {
             "type": "conflict_buy_sell",
-            "title": "⚠️ 충돌: 장기 매수 + 단기 매도",
-            "desc": f"장기는 {long_level}이지만 단기 {short_level} — 백테스트 6M MDD-15% 적중 50%, 진입 보류 권고",
-            "level": "danger",
+            "title": "장기 매수 + 단기 매도 (참고)",
+            "desc": f"장기 {long_level} / 단기 {short_level} — 방향 불일치. Walk-Forward 실패 신호라 행동 권고 없음",
+            "level": "info",
         }
     if long_is_sell and short_is_buy:
         return {
