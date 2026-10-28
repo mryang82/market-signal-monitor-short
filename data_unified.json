@@ -1,25 +1,19 @@
 {
-  "timestamp": "2026-10-28T12:39:19.269370",
+  "timestamp": "2026-10-28T12:50:33.589804",
   "short_term": {
-    "timestamp": "2026-10-28T12:39:19.268924",
+    "timestamp": "2026-10-28T12:50:33.589425",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
-    "sell_score": -1,
+    "sell_score": 0,
     "pillars": {
       "A_price_momentum": 0,
       "B_drawdown": 0,
       "C_credit_rotation": 0,
-      "D_macro_stress": 1
+      "D_macro_stress": 0
     },
     "triggers_buy": [],
-    "triggers_sell": [
-      {
-        "name": "SKEW > 145",
-        "weight": 1,
-        "pillar": "D"
-      }
-    ],
+    "triggers_sell": [],
     "context_alerts": [],
     "indicators": {
       "SPX": 7722.60009765625,
@@ -27,20 +21,20 @@
       "SPX_20d_chg": 0.6747664527036568,
       "SPX_pct_above_MA50": 0.3324676499312451,
       "SPX_pct_above_MA200": 5.805376825172703,
-      "VIX": 17.420000076293945,
-      "VIX_5d_chg": 4.43644938596639,
+      "VIX": 17.389999389648438,
+      "VIX_5d_chg": 4.256589157569413,
       "VIX3M": 19.56999969482422,
-      "VIX_VIX3M_ratio": 0.8901379840542922,
+      "VIX_VIX3M_ratio": 0.888604990333631,
       "VIX9D": 16.649999618530273,
-      "VIX9D_VIX_ratio": 0.9557979073254121,
+      "VIX9D_VIX_ratio": 0.957446820178806,
       "VVIX": 99.44999694824219,
       "SKEW": 149.22000122070312,
       "HYG": 77.5999984741211,
       "HYG_5d_chg": 1.0022082841538715,
       "XLP_XLY_ratio": 0.7548722722353076,
       "XLP_XLY_20d_chg": 0.6650106320753357,
-      "DXY": 102.32099914550781,
-      "DXY_20d_chg": 0.858553202037049,
+      "DXY": 102.33599853515625,
+      "DXY_20d_chg": 0.8733382095280628,
       "TNX": 4.994999885559082,
       "TNX_5d_chg_bp": -15.10000228881836,
       "KRE": 72.58000183105469,
@@ -67,12 +61,16 @@
         "n": 753
       },
       "CAUTION_DOWN": {
-        "hit_rate_3m_dn10": 31.8,
-        "n": 877
+        "hit_rate_3m_dn10": 22.8,
+        "n": 381,
+        "base": 12.1,
+        "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8"
       },
       "SHIFT_DOWN": {
-        "hit_rate_3m_dn10": 42.8,
-        "n": 334
+        "hit_rate_3m_dn10": 26.5,
+        "n": 170,
+        "base": 12.1,
+        "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8"
       }
     },
     "ndx_dd": {
