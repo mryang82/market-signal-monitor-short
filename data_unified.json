@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-28T12:50:33.589804",
+  "timestamp": "2026-10-28T13:11:34.433815",
   "short_term": {
-    "timestamp": "2026-10-28T12:50:33.589425",
+    "timestamp": "2026-10-28T13:11:34.433459",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -21,22 +21,22 @@
       "SPX_20d_chg": 0.6747664527036568,
       "SPX_pct_above_MA50": 0.3324676499312451,
       "SPX_pct_above_MA200": 5.805376825172703,
-      "VIX": 17.389999389648438,
-      "VIX_5d_chg": 4.256589157569413,
+      "VIX": 17.3799991607666,
+      "VIX_5d_chg": 4.196635748103739,
       "VIX3M": 19.56999969482422,
-      "VIX_VIX3M_ratio": 0.888604990333631,
+      "VIX_VIX3M_ratio": 0.8880939924267439,
       "VIX9D": 16.649999618530273,
-      "VIX9D_VIX_ratio": 0.957446820178806,
+      "VIX9D_VIX_ratio": 0.9579977228143819,
       "VVIX": 99.44999694824219,
       "SKEW": 149.22000122070312,
       "HYG": 77.5999984741211,
       "HYG_5d_chg": 1.0022082841538715,
       "XLP_XLY_ratio": 0.7548722722353076,
       "XLP_XLY_20d_chg": 0.6650106320753357,
-      "DXY": 102.33599853515625,
-      "DXY_20d_chg": 0.8733382095280628,
-      "TNX": 4.994999885559082,
-      "TNX_5d_chg_bp": -15.10000228881836,
+      "DXY": 102.31800079345703,
+      "DXY_20d_chg": 0.8555977046087904,
+      "TNX": 4.999000072479248,
+      "TNX_5d_chg_bp": -14.699983596801758,
       "KRE": 72.58000183105469,
       "KRE_5d_chg": 2.775416324332447,
       "KRE_20d_chg": 3.9381353685959963,
@@ -99,7 +99,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-28T12:37:45.459976",
+    "timestamp": "2026-10-28T13:10:22.035971",
     "level": "NEUTRAL",
     "score": 0.7,
     "regime": "BULL_MID",
@@ -116,7 +116,21 @@
     "rsi_w": 64.3,
     "hy": 330,
     "hy_6m_ago": 282,
-    "yc": 0.32
+    "yc": 0.32,
+    "proximity": {
+      "next_level": "WATCH",
+      "next_threshold": 1.5,
+      "gap": 0.8,
+      "capped": null
+    },
+    "late_cycle": {
+      "status": "NEAR",
+      "hy": 330,
+      "hy_threshold": 350.0,
+      "yc": 0.32,
+      "yc_threshold": 0.3,
+      "desc": "LATE_CYCLE: HY 350bp \uc774\uc0c1 \uadf8\ub9ac\uace0 2s10s 0.3% \ubbf8\ub9cc \u2192 \ub9e4\ub3c4 \uac00\uc911\uce58 1.10x, \ub9e4\uc218 0.95x"
+    }
   },
   "conflict": {
     "type": "neutral",
