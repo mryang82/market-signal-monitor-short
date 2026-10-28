@@ -211,8 +211,8 @@ def compute_v2_signal(d):
     if vix is not None and 18 <= vix <= 25:
         triggers_sell.append(("VIX 18-25 (elevated)", 1, "D"))
         pillar_D = max(pillar_D, 1)
-    if skew is not None and skew > 145:
-        triggers_sell.append(("SKEW > 145", 1, "D"))
+    # SKEW > 145 트리거 제거 (2026-10-28): SKEW 지수가 구조적으로 상승해 2024~26년 절반 이상 발동,
+    # 제거해도 낙폭 적중률 동일(22.0→22.8%) — 정보 없이 경고만 늘림
         pillar_D = max(pillar_D, 1)
     
     # ── 신호 결합 ──
@@ -363,7 +363,7 @@ def compute_conflict(long_level, short_level):
         return {
             "type": "sell_agree",
             "title": "📉 매도 합의",
-            "desc": f"장기 {long_level} + 단기 {short_level} — 단기 모멘텀 매도 신뢰",
+            "desc": f"장기 {long_level} + 단기 {short_level} — 장·단기 모두 약세 (참고, 매도 권고 아님)",
             "level": "warn",
         }
     if long_is_buy and short_is_sell:
@@ -398,7 +398,7 @@ def compute_conflict(long_level, short_level):
         return {
             "type": "short_only_sell",
             "title": "단기 매도",
-            "desc": f"단기 {short_level} — 단기 비중 조절 (적중률 32~43%)",
+            "desc": f"단기 {short_level} — 낙폭 위험 경고: 3개월 내 -10% 하락 확률 약 23~27% (평소 12%) · 매도 권고 아님",
             "level": "warn",
         }
     if long_is_sell:
@@ -701,7 +701,7 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
             lines.append(f"  • {t['name']}")
     if short_sig["triggers_sell"]:
         lines.append("")
-        lines.append("📉 <b>매도 트리거:</b>")
+        lines.append("⚠️ <b>낙폭 위험 트리거 (매도 권고 아님):</b>")
         for t in short_sig["triggers_sell"][:5]:
             lines.append(f"  • [{t['pillar']}] {t['name']}")
     
@@ -774,8 +774,8 @@ def export_data_short(short_sig, indicators, alerts):
             "PANIC_BUY": {"hit_rate_3m_up10": 55.6, "n": 293},
             "SHIFT_UP": {"hit_rate_3m_up10": 48.9, "n": 689},
             "CAUTION_UP": {"hit_rate_3m_up10": 31.1, "n": 753},
-            "CAUTION_DOWN": {"hit_rate_3m_dn10": 31.8, "n": 877},
-            "SHIFT_DOWN": {"hit_rate_3m_dn10": 42.8, "n": 334},
+            "CAUTION_DOWN": {"hit_rate_3m_dn10": 22.8, "n": 381, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
+            "SHIFT_DOWN": {"hit_rate_3m_dn10": 26.5, "n": 170, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
         },
     }
 
