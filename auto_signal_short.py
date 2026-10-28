@@ -554,6 +554,88 @@ def build_indicators(market_data):
 
 
 # ──────────────────────────────────────────────────────────────
+# ★★ NDX -10% 첫 진입 (나스닥 보조 매수 신호, 2026-10-28 Walk-Forward 검증)
+#   규칙: NDX 종가가 52주(252거래일) 고점 대비 -10% 이하로 들어간 날,
+#         직전 20거래일 동안 -10% 이하인 날이 없었으면 "사건".
+#   2011-2026: 21회, 60일 후 평균 +11.1% (기준선 +4.3%), 상승 90%,
+#              12M +15% 79% (기준선 64%), WF 6/6 구간 기준선 초과.
+#   실패: 2022-01-20 (60일 -6.3%, 진입 후 최대 -28%) — 약세장 초입 구분 못 함.
+# ──────────────────────────────────────────────────────────────
+
+NDX_DD_THRESHOLD = -10.0
+NDX_DD_GAP = 20          # 같은 하락 안 재알림 방지 (거래일)
+NDX_DD_ACTIVE_DAYS = 5   # 발동 후 PWA 배너 유지 기간 (거래일)
+
+
+def compute_ndx_dd_signal():
+    """NDX 52주 고점 대비 낙폭 + -10% 첫 진입 사건 탐지 (실패 시 None)"""
+    try:
+        hist = yf.Ticker("^NDX").history(period="2y", auto_adjust=False)
+        close = hist["Close"].dropna()
+        close.index = close.index.tz_localize(None)
+    except Exception as e:
+        print(f"   ❌ NDX 2y fetch 실패: {str(e)[:60]}")
+        return None
+    if len(close) < 260:
+        print(f"   ⚠️ NDX 데이터 부족 ({len(close)}일)")
+        return None
+
+    high = close.rolling(252, min_periods=200).max()
+    dd = (close / high - 1) * 100
+    below = (dd <= NDX_DD_THRESHOLD).fillna(False).values
+
+    events = []
+    last_below = None
+    for i, b in enumerate(below):
+        if not b:
+            continue
+        if last_below is None or i - last_below > NDX_DD_GAP:
+            events.append(i)
+        last_below = i
+
+    n = len(close)
+    last_ev = events[-1] if events else None
+    days_since = (n - 1 - last_ev) if last_ev is not None else None
+    h52 = float(high.iloc[-1])
+    h52_date = close.iloc[-252:].idxmax()
+
+    return {
+        "grade": "★★",
+        "ndx": round(float(close.iloc[-1]), 2),
+        "ndx_date": str(close.index[-1].date()),
+        "dd_pct": round(float(dd.iloc[-1]), 2),
+        "high_52w": round(h52, 2),
+        "high_52w_date": str(h52_date.date()),
+        "trigger_level": round(h52 * (1 + NDX_DD_THRESHOLD / 100), 0),
+        "triggered_today": days_since == 0,
+        "active": days_since is not None and days_since <= NDX_DD_ACTIVE_DAYS,
+        "last_event_date": str(close.index[last_ev].date()) if last_ev is not None else None,
+        "days_since_event": days_since,
+        "backtest": {
+            "period": "2011-2026", "events": 21,
+            "f60_mean": 11.1, "f60_base": 4.3, "pos60": 90,
+            "up15_12m": 79, "up15_12m_base": 64, "wf_periods_beat": "6/6",
+            "worst": "2022-01-20: 60일 -6.3%, 진입 후 최대 -28%",
+        },
+    }
+
+
+def format_ndx_dd_message(sig):
+    bt = sig["backtest"]
+    lines = [
+        "🟦 <b>★★ 나스닥 -10% 첫 진입</b>",
+        f"NDX {sig['ndx']:,.0f} ({sig['ndx_date']}) · 52주 고점 {sig['high_52w']:,.0f} ({sig['high_52w_date']}) 대비 <b>{sig['dd_pct']:+.1f}%</b>",
+        "",
+        f"📊 과거 {bt['events']}회 ({bt['period']}): 60일 후 평균 <b>+{bt['f60_mean']}%</b> (기준선 +{bt['f60_base']}%), 상승 {bt['pos60']}%",
+        f"12개월 +15% 이상 {bt['up15_12m']}% (기준선 {bt['up15_12m_base']}%) · WF {bt['wf_periods_beat']} 구간 통과",
+        "",
+        f"⚠️ 약세장 초입일 수 있음 — {bt['worst']}",
+        "→ 한 번에 사지 말고 분할 매수 전제",
+    ]
+    return "\n".join(lines)
+
+
+# ──────────────────────────────────────────────────────────────
 # Telegram
 # ──────────────────────────────────────────────────────────────
 
@@ -759,9 +841,16 @@ def main():
     conflict = compute_conflict(long_level, short_sig["level"])
     print(f"   ⇒ {conflict['title']}")
     
+    # 6-1. ★★ NDX -10% 첫 진입 (보조 신호)
+    print("\n🟦 NDX 52주 고점 대비 낙폭...")
+    ndx_dd = compute_ndx_dd_signal()
+    if ndx_dd:
+        print(f"   NDX {ndx_dd['ndx']:.0f} DD {ndx_dd['dd_pct']:+.1f}% · 발동선 {ndx_dd['trigger_level']:.0f} · 최근 사건 {ndx_dd['last_event_date']} ({ndx_dd['days_since_event']}일 전)")
+
     # 7. JSON 출력
     print("\n💾 JSON 저장...")
     data_short = export_data_short(short_sig, indicators, alerts)
+    data_short["ndx_dd"] = ndx_dd
     DATA_SHORT_FILE.write_text(json.dumps(data_short, indent=2, default=str))
     print(f"   ✓ {DATA_SHORT_FILE}")
     
@@ -787,12 +876,26 @@ def main():
         print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패'}")
     else:
         print(f"\n🔕 알림 조건 미충족 (현 레벨 유지: {short_sig['level']})")
-    
+
+    # 8-1. NDX -10% 첫 진입 알림 (사건 날짜가 바뀌었고 아직 유효 기간일 때 1회)
+    #      cron 누락에도 놓치지 않도록 '오늘 발동'이 아니라 '새 사건 + active' 기준
+    last_ndx_event = state.get("last_ndx_event")
+    if ndx_dd and ndx_dd["active"] and ndx_dd["last_event_date"] != last_ndx_event:
+        print(f"\n📨 NDX -10% 첫 진입 알림: {ndx_dd['last_event_date']}")
+        ok = send_telegram(format_ndx_dd_message(ndx_dd))
+        print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패'}")
+        if ok:
+            last_ndx_event = ndx_dd["last_event_date"]
+    elif ndx_dd and last_ndx_event is None:
+        # 첫 배포 시 과거 사건으로 알림이 나가지 않도록 기준만 기록
+        last_ndx_event = ndx_dd["last_event_date"]
+
     # 9. State 저장
     save_state({
         "last_level": short_sig["level"],
         "last_run": datetime.now().isoformat(),
         "last_conflict_type": conflict["type"],
+        "last_ndx_event": last_ndx_event,
     })
     
     print("\n✅ 완료")
