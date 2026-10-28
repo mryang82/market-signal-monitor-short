@@ -674,8 +674,10 @@ def compute_trend_defense():
         if len(close) < 250:
             continue
         me = close.groupby(close.index.to_period("M")).last()
-        # 확정된 월(이번 달 제외)만으로 판정
-        done = me[me.index < cur_month]
+        # 확정된 월만으로 판정: 지난 달까지 + (이번 달 마지막 영업일 종가가 이미 있으면) 이번 달
+        last_bday = (pd.Timestamp(today) + pd.offsets.BMonthEnd(0)).date()
+        month_closed = close.index[-1].date() >= last_bday
+        done = me[(me.index < cur_month) | ((me.index == cur_month) & month_closed)]
         if len(done) < TREND_MONTHS + 1:
             continue
         sma = done.rolling(TREND_MONTHS).mean()
@@ -683,7 +685,10 @@ def compute_trend_defense():
         mode = "DEFENSE" if done.iloc[-1] < sma.iloc[-1] else "NORMAL"
         prev_mode = "DEFENSE" if done.iloc[-2] < sma.iloc[-2] else "NORMAL"
         # 이번 달 진행 중 미리보기: 오늘 종가를 이번 달 월말로 가정
-        live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], close.iloc[-1:]]).mean()
+        if month_closed:
+            live_sma = sma.iloc[-1]  # 이번 달이 이미 확정됨 → 미리보기 = 확정값
+        else:
+            live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], close.iloc[-1:]]).mean()
         live_gap = (float(close.iloc[-1]) / float(live_sma) - 1) * 100
         live_mode = "DEFENSE" if live_gap < 0 else "NORMAL"
         out[key] = {
@@ -706,7 +711,7 @@ def compute_trend_defense():
         return None
     return {
         "rule": "월말 종가 < 10개월선 → 방어 모드(주식 50%), 위 → 정상(100%). 월말에만 확정.",
-        "next_decision": f"{cur_month} 월말",
+        "next_decision": f"{cur_month + 1} 월말" if any(x.get("decided_month") == str(cur_month) for x in out.values()) else f"{cur_month} 월말",
         "indexes": out,
         "backtest": {
             "SPX": "1950-2026 연 11.50% / MDD -32.8% (보유 11.66% / -55.3%), 연 1.5회 전환",
