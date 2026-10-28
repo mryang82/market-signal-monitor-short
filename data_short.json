@@ -1,49 +1,55 @@
 {
-  "timestamp": "2026-10-28T13:11:34.433459",
+  "timestamp": "2026-10-28T14:12:04.169610",
   "level": "NEUTRAL",
   "score": 0,
   "buy_score": 0,
-  "sell_score": 0,
+  "sell_score": -1,
   "pillars": {
     "A_price_momentum": 0,
     "B_drawdown": 0,
-    "C_credit_rotation": 0,
+    "C_credit_rotation": 1,
     "D_macro_stress": 0
   },
   "triggers_buy": [],
-  "triggers_sell": [],
+  "triggers_sell": [
+    {
+      "name": "XLP/XLY 20d > +2%",
+      "weight": 1,
+      "pillar": "C"
+    }
+  ],
   "context_alerts": [],
   "indicators": {
-    "SPX": 7722.60009765625,
-    "SPX_5d_chg": 0.13005099034570922,
-    "SPX_20d_chg": 0.6747664527036568,
-    "SPX_pct_above_MA50": 0.3324676499312451,
-    "SPX_pct_above_MA200": 5.805376825172703,
-    "VIX": 17.3799991607666,
-    "VIX_5d_chg": 4.196635748103739,
+    "SPX": 7727.2998046875,
+    "SPX_5d_chg": -0.38506462393285146,
+    "SPX_20d_chg": 0.9901244094421946,
+    "SPX_pct_above_MA50": 0.38425626574813965,
+    "SPX_pct_above_MA200": 5.815398536719085,
+    "VIX": 17.540000915527344,
+    "VIX_5d_chg": 5.15587886461073,
     "VIX3M": 19.56999969482422,
-    "VIX_VIX3M_ratio": 0.8880939924267439,
-    "VIX9D": 16.649999618530273,
-    "VIX9D_VIX_ratio": 0.9579977228143819,
-    "VVIX": 99.44999694824219,
+    "VIX_VIX3M_ratio": 0.8962698614740521,
+    "VIX9D": 16.90999984741211,
+    "VIX9D_VIX_ratio": 0.9640820390404015,
+    "VVIX": 98.63999938964844,
     "SKEW": 149.22000122070312,
-    "HYG": 77.5999984741211,
-    "HYG_5d_chg": 1.0022082841538715,
-    "XLP_XLY_ratio": 0.7548722722353076,
-    "XLP_XLY_20d_chg": 0.6650106320753357,
-    "DXY": 102.31800079345703,
-    "DXY_20d_chg": 0.8555977046087904,
+    "HYG": 77.67500305175781,
+    "HYG_5d_chg": 0.9028314685850525,
+    "XLP_XLY_ratio": 0.7558938816568377,
+    "XLP_XLY_20d_chg": 2.0738075296362846,
+    "DXY": 102.34700012207031,
+    "DXY_20d_chg": 0.8841825537813985,
     "TNX": 4.999000072479248,
     "TNX_5d_chg_bp": -14.699983596801758,
-    "KRE": 72.58000183105469,
-    "KRE_5d_chg": 2.775416324332447,
-    "KRE_20d_chg": 3.9381353685959963,
-    "IWM_SPX_ratio": 0.03628052587635785,
-    "IWM_SPX_20d_chg": -0.2537207613629966,
-    "SOXX": 511.05999755859375,
-    "SOXX_20d_chg": -9.935853066445432,
-    "NDX": 29651.439453125,
-    "RUT": 2818.8701171875
+    "KRE": 72.36000061035156,
+    "KRE_5d_chg": 2.4638881281461744,
+    "KRE_20d_chg": 4.20506633969262,
+    "IWM_SPX_ratio": 0.03630698947458881,
+    "IWM_SPX_20d_chg": -0.030814704122705816,
+    "SOXX": 514.4600219726562,
+    "SOXX_20d_chg": -9.527995090053254,
+    "NDX": 29648.701171875,
+    "RUT": 2827.12744140625
   },
   "backtest": {
     "PANIC_BUY": {
@@ -73,16 +79,16 @@
   },
   "ndx_dd": {
     "grade": "\u2605\u2605",
-    "ndx": 29651.44,
-    "ndx_date": "2026-10-27",
-    "dd_pct": -5.04,
+    "ndx": 29644.69,
+    "ndx_date": "2026-10-28",
+    "dd_pct": -5.06,
     "high_52w": 31224.47,
     "high_52w_date": "2026-10-06",
     "trigger_level": 28102.0,
     "triggered_today": false,
     "active": false,
     "last_event_date": "2026-07-29",
-    "days_since_event": 63,
+    "days_since_event": 64,
     "backtest": {
       "period": "2011-2026",
       "events": 21,
@@ -93,6 +99,50 @@
       "up15_12m_base": 64,
       "wf_periods_beat": "6/6",
       "worst": "2022-01-20: 60\uc77c -6.3%, \uc9c4\uc785 \ud6c4 \ucd5c\ub300 -28%"
+    }
+  },
+  "trend_defense": {
+    "rule": "\uc6d4\ub9d0 \uc885\uac00 < 10\uac1c\uc6d4\uc120 \u2192 \ubc29\uc5b4 \ubaa8\ub4dc(\uc8fc\uc2dd 50%), \uc704 \u2192 \uc815\uc0c1(100%). \uc6d4\ub9d0\uc5d0\ub9cc \ud655\uc815.",
+    "next_decision": "2026-10 \uc6d4\ub9d0",
+    "indexes": {
+      "SPX": {
+        "name": "S&P 500",
+        "mode": "NORMAL",
+        "equity_pct": 100,
+        "decided_month": "2026-09",
+        "month_close": 7651.54,
+        "sma10": 7230.78,
+        "gap_pct": 5.82,
+        "changed_this_month": false,
+        "live_price": 7727.7,
+        "live_date": "2026-10-28",
+        "live_sma10": 7319.0,
+        "live_gap_pct": 5.58,
+        "live_mode": "NORMAL",
+        "flip_risk": false
+      },
+      "NDX": {
+        "name": "\ub098\uc2a4\ub2e5100",
+        "mode": "NORMAL",
+        "equity_pct": 100,
+        "decided_month": "2026-09",
+        "month_close": 30408.5,
+        "sma10": 27570.38,
+        "gap_pct": 10.29,
+        "changed_this_month": false,
+        "live_price": 29644.69,
+        "live_date": "2026-10-28",
+        "live_sma10": 28009.86,
+        "live_gap_pct": 5.84,
+        "live_mode": "NORMAL",
+        "flip_risk": false
+      }
+    },
+    "backtest": {
+      "SPX": "1950-2026 \uc5f0 11.50% / MDD -32.8% (\ubcf4\uc720 11.66% / -55.3%), \uc5f0 1.5\ud68c \uc804\ud658",
+      "NDX": "1986-2026 \uc5f0 14.64% / MDD -62.4% (\ubcf4\uc720 15.35% / -82.5%)",
+      "cost": "\uac15\uc138\uc7a5(2011-2026)\uc5d0\uc120 \uc5f0 2~3%p \uc190\ud574 \u2014 \ud070 \ud558\ub77d \ub300\ube44 \ubcf4\ud5d8\ub8cc",
+      "limit": "\uae09\ub77d(1987, 2020)\uc740 \uc6d4\ub9d0 \ud310\uc815 \uc804\uc5d0 \ub300\ubd80\ubd84 \uc9c4\ud589 \u2192 \ub9c9\uc9c0 \ubabb\ud568"
     }
   }
 }
