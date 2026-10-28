@@ -637,6 +637,102 @@ def format_ndx_dd_message(sig):
 
 
 # ──────────────────────────────────────────────────────────────
+# 추세 방어 모드 (v14, 2026-10-28 장기 검증)
+#   규칙: 매월 마지막 거래일 종가가 최근 10개월 월말 종가 평균(10개월선) 아래 → 방어 모드(주식 50%)
+#         위 → 정상(주식 100%). 각 지수는 자기 10개월선으로 판정. 월말에만 확정.
+#   S&P 500 1950-2026: 연 11.50% / MDD -32.8% (보유 11.66% / -55.3%), 연 1.5회 전환
+#   나스닥100 1986-2026: 연 14.64% / MDD -62.4% (보유 15.35% / -82.5%)
+#   2011-2026 강세장에서는 S&P 연 -2.6%p, 나스닥 -2.3%p 손해 (보험료)
+# ──────────────────────────────────────────────────────────────
+
+TREND_INDEXES = {"SPX": ("^GSPC", "S&P 500"), "NDX": ("^NDX", "나스닥100")}
+TREND_MONTHS = 10
+TREND_DEFENSE_EQUITY = 50   # 방어 모드 주식 비중 (%)
+
+
+def _us_today():
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("America/New_York")).date()
+    except Exception:
+        return datetime.utcnow().date()
+
+
+def compute_trend_defense():
+    """지수별 월말 10개월선 판정 (실패한 지수는 제외, 전부 실패 시 None)"""
+    today = _us_today()
+    cur_month = pd.Period(today, freq="M")
+    out = {}
+    for key, (tk, name) in TREND_INDEXES.items():
+        try:
+            hist = yf.Ticker(tk).history(period="2y", auto_adjust=False)
+            close = hist["Close"].dropna()
+            close.index = close.index.tz_localize(None)
+        except Exception as e:
+            print(f"   ❌ {key} 2y fetch 실패: {str(e)[:60]}")
+            continue
+        if len(close) < 250:
+            continue
+        me = close.groupby(close.index.to_period("M")).last()
+        # 확정된 월(이번 달 제외)만으로 판정
+        done = me[me.index < cur_month]
+        if len(done) < TREND_MONTHS + 1:
+            continue
+        sma = done.rolling(TREND_MONTHS).mean()
+        last_m = done.index[-1]
+        mode = "DEFENSE" if done.iloc[-1] < sma.iloc[-1] else "NORMAL"
+        prev_mode = "DEFENSE" if done.iloc[-2] < sma.iloc[-2] else "NORMAL"
+        # 이번 달 진행 중 미리보기: 오늘 종가를 이번 달 월말로 가정
+        live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], close.iloc[-1:]]).mean()
+        live_gap = (float(close.iloc[-1]) / float(live_sma) - 1) * 100
+        live_mode = "DEFENSE" if live_gap < 0 else "NORMAL"
+        out[key] = {
+            "name": name,
+            "mode": mode,
+            "equity_pct": TREND_DEFENSE_EQUITY if mode == "DEFENSE" else 100,
+            "decided_month": str(last_m),
+            "month_close": round(float(done.iloc[-1]), 2),
+            "sma10": round(float(sma.iloc[-1]), 2),
+            "gap_pct": round((float(done.iloc[-1]) / float(sma.iloc[-1]) - 1) * 100, 2),
+            "changed_this_month": mode != prev_mode,
+            "live_price": round(float(close.iloc[-1]), 2),
+            "live_date": str(close.index[-1].date()),
+            "live_sma10": round(float(live_sma), 2),
+            "live_gap_pct": round(live_gap, 2),
+            "live_mode": live_mode,
+            "flip_risk": live_mode != mode,
+        }
+    if not out:
+        return None
+    return {
+        "rule": "월말 종가 < 10개월선 → 방어 모드(주식 50%), 위 → 정상(100%). 월말에만 확정.",
+        "next_decision": f"{cur_month} 월말",
+        "indexes": out,
+        "backtest": {
+            "SPX": "1950-2026 연 11.50% / MDD -32.8% (보유 11.66% / -55.3%), 연 1.5회 전환",
+            "NDX": "1986-2026 연 14.64% / MDD -62.4% (보유 15.35% / -82.5%)",
+            "cost": "강세장(2011-2026)에선 연 2~3%p 손해 — 큰 하락 대비 보험료",
+            "limit": "급락(1987, 2020)은 월말 판정 전에 대부분 진행 → 막지 못함",
+        },
+    }
+
+
+def format_trend_message(key, x):
+    if x["mode"] == "DEFENSE":
+        head = f"🛡️ <b>{html.escape(x['name'])} 방어 모드 전환</b> → 주식 {TREND_DEFENSE_EQUITY}%"
+    else:
+        head = f"✅ <b>{html.escape(x['name'])} 정상 모드 복귀</b> → 주식 100%"
+    return "\n".join([
+        head,
+        f"{x['decided_month']} 월말 {x['month_close']:,.0f} · 10개월선 {x['sma10']:,.0f} ({x['gap_pct']:+.1f}%)",
+        "",
+        "규칙: 월말 종가가 10개월선 아래면 주식 50%, 위면 100%",
+        "장기 검증: 큰 하락의 최대 낙폭을 약 20%p 줄임, 강세장에선 연 2~3%p 비용",
+        "세금이 이연되는 계좌(연금·ISA)에서 실행 권장",
+    ])
+
+
+# ──────────────────────────────────────────────────────────────
 # Telegram
 # ──────────────────────────────────────────────────────────────
 
@@ -848,10 +944,18 @@ def main():
     if ndx_dd:
         print(f"   NDX {ndx_dd['ndx']:.0f} DD {ndx_dd['dd_pct']:+.1f}% · 발동선 {ndx_dd['trigger_level']:.0f} · 최근 사건 {ndx_dd['last_event_date']} ({ndx_dd['days_since_event']}일 전)")
 
+    # 6-2. 추세 방어 모드 (v14)
+    print("\n🛡️ 추세 방어 모드 (월말 10개월선)...")
+    trend = compute_trend_defense()
+    if trend:
+        for k, x in trend["indexes"].items():
+            print(f"   {k}: {x['mode']} (확정 {x['decided_month']}, {x['gap_pct']:+.1f}%) · 이번 달 진행 {x['live_gap_pct']:+.1f}% → {x['live_mode']}")
+
     # 7. JSON 출력
     print("\n💾 JSON 저장...")
     data_short = export_data_short(short_sig, indicators, alerts)
     data_short["ndx_dd"] = ndx_dd
+    data_short["trend_defense"] = trend
     DATA_SHORT_FILE.write_text(json.dumps(data_short, indent=2, default=str))
     print(f"   ✓ {DATA_SHORT_FILE}")
     
@@ -891,12 +995,27 @@ def main():
         # 첫 배포 시 과거 사건으로 알림이 나가지 않도록 기준만 기록
         last_ndx_event = ndx_dd["last_event_date"]
 
+    # 8-2. 추세 방어 모드 전환 알림 (확정 모드가 바뀌었을 때 1회, 전송 성공 시에만 기록)
+    trend_state = dict(state.get("trend_modes") or {})
+    if trend:
+        for k, x in trend["indexes"].items():
+            prev = trend_state.get(k)
+            if prev is None:
+                trend_state[k] = x["mode"]  # 첫 배포: 기준만 기록
+            elif prev != x["mode"]:
+                print(f"\n📨 추세 방어 알림: {k} {prev} → {x['mode']}")
+                ok = send_telegram(format_trend_message(k, x))
+                print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패'}")
+                if ok:
+                    trend_state[k] = x["mode"]
+
     # 9. State 저장
     save_state({
         "last_level": short_sig["level"],
         "last_run": datetime.now().isoformat(),
         "last_conflict_type": conflict["type"],
         "last_ndx_event": last_ndx_event,
+        "trend_modes": trend_state,
     })
     
     print("\n✅ 완료")
