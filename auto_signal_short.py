@@ -650,17 +650,25 @@ TREND_MONTHS = 10
 TREND_DEFENSE_EQUITY = 50   # 방어 모드 주식 비중 (%)
 
 
-def _us_today():
+def _ny_now():
     try:
         from zoneinfo import ZoneInfo
-        return datetime.now(ZoneInfo("America/New_York")).date()
+        return datetime.now(ZoneInfo("America/New_York")).replace(tzinfo=None)
     except Exception:
-        return datetime.utcnow().date()
+        return datetime.utcnow() - pd.Timedelta(hours=5)
+
+
+def _us_today():
+    return _ny_now().date()
+
+
+MARKET_FINAL_HHMM = (16, 15)  # 뉴욕 16:15 이후에만 오늘 종가를 확정값으로 인정
 
 
 def compute_trend_defense():
     """지수별 월말 10개월선 판정 (실패한 지수는 제외, 전부 실패 시 None)"""
-    today = _us_today()
+    now_ny = _ny_now()
+    today = now_ny.date()
     cur_month = pd.Period(today, freq="M")
     out = {}
     for key, (tk, name) in TREND_INDEXES.items():
@@ -673,11 +681,18 @@ def compute_trend_defense():
             continue
         if len(close) < 250:
             continue
-        me = close.groupby(close.index.to_period("M")).last()
-        # 확정된 월만으로 판정: 지난 달까지 + (이번 달 마지막 영업일 종가가 이미 있으면) 이번 달
-        last_bday = (pd.Timestamp(today) + pd.offsets.BMonthEnd(0)).date()
-        month_closed = close.index[-1].date() >= last_bday
-        done = me[(me.index < cur_month) | ((me.index == cur_month) & month_closed)]
+        # 장중 실행(KST 22:30/23:00 = 뉴욕 개장 직후)이면 오늘 봉은 장중 가격 → 판정에서 제외 (2026-10-28 감사 지적)
+        intraday = close.index[-1].date() == today and (now_ny.hour, now_ny.minute) < MARKET_FINAL_HHMM
+        final = close.iloc[:-1] if intraday else close
+        me = final.groupby(final.index.to_period("M")).last()
+        last_obs = final.groupby(final.index.to_period("M")).apply(lambda s: s.index[-1].date())
+        # 확정 월: 다음 달 데이터가 이미 있거나, 그 달 마지막 영업일 종가(장 마감 후)가 들어온 달
+        def _closed(p):
+            if p < final.index[-1].to_period("M"):
+                return True
+            return last_obs[p] >= (p.to_timestamp(how="start") + pd.offsets.BMonthEnd(0)).date()
+        done = me[[_closed(p) for p in me.index]]
+        month_closed = len(done) > 0 and done.index[-1] == cur_month
         if len(done) < TREND_MONTHS + 1:
             continue
         sma = done.rolling(TREND_MONTHS).mean()
@@ -685,7 +700,7 @@ def compute_trend_defense():
         mode = "DEFENSE" if done.iloc[-1] < sma.iloc[-1] else "NORMAL"
         prev_mode = "DEFENSE" if done.iloc[-2] < sma.iloc[-2] else "NORMAL"
         # 이번 달 진행 중 미리보기: 오늘 종가를 이번 달 월말로 가정
-        if month_closed:
+        if month_closed or close.index[-1].to_period("M") <= done.index[-1]:
             live_sma = sma.iloc[-1]  # 이번 달이 이미 확정됨 → 미리보기 = 확정값
         else:
             live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], close.iloc[-1:]]).mean()
@@ -711,7 +726,7 @@ def compute_trend_defense():
         return None
     return {
         "rule": "월말 종가 < 10개월선 → 방어 모드(주식 50%), 위 → 정상(100%). 월말에만 확정.",
-        "next_decision": f"{cur_month + 1} 월말" if any(x.get("decided_month") == str(cur_month) for x in out.values()) else f"{cur_month} 월말",
+        "next_decision": f"{max(pd.Period(x['decided_month'], freq='M') for x in out.values()) + 1} 월말",
         "indexes": out,
         "backtest": {
             "SPX": "1950-2026 연 11.50% / MDD -32.8% (보유 11.66% / -55.3%), 연 1.5회 전환",
