@@ -848,6 +848,9 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
     lines = []
     lines.append(f"{short_emoji} <b>단기 {short_sig['level']}</b>")
     lines.append(f"점수: {short_sig['score']:+d}")
+    if short_sig["level"] == "PANIC_BUY":
+        lines.append("2011~ 사건 12회 중 9회 12M+15% (아무 날 46%) · 1990~ 26회 중 14회 (기준선 39%)")
+        lines.append("<i>2000~2010 약세장에선 11회 중 2회 — 방어 모드 중이면 주식 50% 안에서만 분할 매수</i>")
     lines.append("")
     
     # 장기 신호
@@ -944,7 +947,8 @@ def export_data_short(short_sig, indicators, alerts):
         "indicators": indicators,
         "backtest": {
             # 사건 단위 (2011-2026, 12M +15% 도달, 기준선 46%) — 2026-10-28 재검증. 일 단위 수치(n=293 등)는 사용 금지
-            "PANIC_BUY": {"events": 12, "hit_12m_up15": 9, "rate": 75, "base": 46},
+            "PANIC_BUY": {"events": 12, "hit_12m_up15": 9, "rate": 75, "base": 46,
+                          "long": "1990-2026 26회 중 14회 (기준선 39%), 2000-2010은 11회 중 2회. 신호 당시 깊은 방어 모드 7회 중 2회"},
             "SHIFT_UP": {"events": 18, "rate": 59, "base": 46, "note": "참고 (우위 작음)"},
             "CAUTION_UP": {"events": 30, "rate": 46, "base": 46, "note": "정보 없음"},
             "CAUTION_DOWN": {"hit_rate_3m_dn10": 22.8, "n": 381, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
