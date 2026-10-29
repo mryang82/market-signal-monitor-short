@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-29T07:32:39.517401+00:00",
+  "timestamp": "2026-10-29T08:00:37.977176+00:00",
   "level": "NEUTRAL",
   "score": 0,
   "buy_score": 0,
@@ -98,7 +98,9 @@
       "up15_12m": 79,
       "up15_12m_base": 64,
       "wf_periods_beat": "6/6",
-      "worst": "2022-01-20: 60\uc77c -6.3%, \uc9c4\uc785 \ud6c4 \ucd5c\ub300 -28%"
+      "worst": "2022-01-20: 60\uc77c -6.3%, \uc9c4\uc785 \ud6c4 \ucd5c\ub300 -28%",
+      "long": "1986-2026 51\ud68c: 60\uc77c +7.0% (\uae30\uc900\uc120 +3.9%), 5\ub144 \uad6c\uac04 8\uac1c \uc911 5\uac1c \uc6b0\uc704. 1986-1999\ub294 \uc6b0\uc704 \uc5c6\uc74c",
+      "long_fail": "\ud070 \uc57d\uc138\uc7a5 \ucd08\uc785\uc5d0 \ubc1c\ub3d9 \u2014 2000-04 12\uac1c\uc6d4 -66%, 2007-11 -38%, 2008-01 -36%, 2022-01 -20% (\ubaa8\ub450 \ucd94\uc138 \ubc29\uc5b4 '\uc815\uc0c1' \ubaa8\ub4dc\uc5d0\uc11c \ubc1c\uc0dd)"
     }
   },
   "trend_defense": {
