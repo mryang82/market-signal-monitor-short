@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-29T02:13:29.672592",
+  "timestamp": "2026-10-29T07:32:39.517722+00:00",
   "short_term": {
-    "timestamp": "2026-10-29T02:13:29.672257",
+    "timestamp": "2026-10-29T07:32:39.517401+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -33,8 +33,8 @@
       "HYG_5d_chg": 0.792404461362084,
       "XLP_XLY_ratio": 0.7529696953018463,
       "XLP_XLY_20d_chg": 1.6789335368399216,
-      "DXY": 102.09400177001953,
-      "DXY_20d_chg": 0.6348002377032147,
+      "DXY": 102.19000244140625,
+      "DXY_20d_chg": 0.729428797855558,
       "TNX": 5.045000076293945,
       "TNX_5d_chg_bp": -10.099983215332031,
       "KRE": 72.11000061035156,
@@ -44,21 +44,27 @@
       "IWM_SPX_20d_chg": 0.015197797561605775,
       "SOXX": 521.9400024414062,
       "SOXX_20d_chg": -8.212579312749135,
-      "NDX": 29813.15625,
-      "RUT": 2830.50927734375
+      "NDX": 29813.16015625,
+      "RUT": 2830.510009765625
     },
     "backtest": {
       "PANIC_BUY": {
-        "hit_rate_3m_up10": 55.6,
-        "n": 293
+        "events": 12,
+        "hit_12m_up15": 9,
+        "rate": 75,
+        "base": 46
       },
       "SHIFT_UP": {
-        "hit_rate_3m_up10": 48.9,
-        "n": 689
+        "events": 18,
+        "rate": 59,
+        "base": 46,
+        "note": "\ucc38\uace0 (\uc6b0\uc704 \uc791\uc74c)"
       },
       "CAUTION_UP": {
-        "hit_rate_3m_up10": 31.1,
-        "n": 753
+        "events": 30,
+        "rate": 46,
+        "base": 46,
+        "note": "\uc815\ubcf4 \uc5c6\uc74c"
       },
       "CAUTION_DOWN": {
         "hit_rate_3m_dn10": 22.8,
@@ -143,7 +149,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-29T01:57:26.199410",
+    "timestamp": "2026-10-29T07:27:10.560622+00:00",
     "level": "NEUTRAL",
     "score": 0.7,
     "regime": "BULL_MID",
@@ -161,6 +167,8 @@
     "hy": 318,
     "hy_6m_ago": 282,
     "yc": 0.29,
+    "missing": [],
+    "intraday_excluded": true,
     "proximity": {
       "next_level": "WATCH",
       "next_threshold": 1.5,
@@ -182,5 +190,13 @@
     "desc": "\uc591\ucabd \uc2e0\ud638 \uc5c6\uc74c \u2014 \ud604 \ud3ec\uc9c0\uc158 \uc720\uc9c0",
     "level": "info"
   },
-  "version": "v12"
+  "version": "v12",
+  "health": {
+    "long_term_ok": true,
+    "long_term_age_h": 0.1,
+    "long_term_stale": false,
+    "long_term_missing": [],
+    "missing_tickers": [],
+    "intraday_excluded": true
+  }
 }
