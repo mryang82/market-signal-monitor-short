@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-29T08:00:37.977176+00:00",
+  "timestamp": "2026-10-29T08:11:53.415571+00:00",
   "level": "NEUTRAL",
   "score": 0,
   "buy_score": 0,
@@ -50,7 +50,8 @@
       "events": 12,
       "hit_12m_up15": 9,
       "rate": 75,
-      "base": 46
+      "base": 46,
+      "long": "1990-2026 26\ud68c \uc911 14\ud68c (\uae30\uc900\uc120 39%), 2000-2010\uc740 11\ud68c \uc911 2\ud68c. \uc2e0\ud638 \ub2f9\uc2dc \uae4a\uc740 \ubc29\uc5b4 \ubaa8\ub4dc 7\ud68c \uc911 2\ud68c"
     },
     "SHIFT_UP": {
       "events": 18,
