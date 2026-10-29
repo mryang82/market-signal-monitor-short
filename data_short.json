@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-29T08:11:53.415571+00:00",
+  "timestamp": "2026-10-29T19:07:01.349726+00:00",
   "level": "NEUTRAL",
   "score": 0,
   "buy_score": 0,
@@ -117,10 +117,10 @@
         "sma10": 7230.78,
         "gap_pct": 5.82,
         "changed_this_month": false,
-        "live_price": 7743.98,
-        "live_date": "2026-10-28",
-        "live_sma10": 7320.62,
-        "live_gap_pct": 5.78,
+        "live_price": 7703.06,
+        "live_date": "2026-10-29",
+        "live_sma10": 7316.53,
+        "live_gap_pct": 5.28,
         "live_mode": "NORMAL",
         "flip_risk": false
       },
@@ -133,10 +133,10 @@
         "sma10": 27570.38,
         "gap_pct": 10.29,
         "changed_this_month": false,
-        "live_price": 29813.16,
-        "live_date": "2026-10-28",
-        "live_sma10": 28026.71,
-        "live_gap_pct": 6.37,
+        "live_price": 29321.78,
+        "live_date": "2026-10-29",
+        "live_sma10": 27977.57,
+        "live_gap_pct": 4.8,
         "live_mode": "NORMAL",
         "flip_risk": false
       }

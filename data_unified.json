@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-29T08:11:53.415850+00:00",
+  "timestamp": "2026-10-29T19:07:01.350044+00:00",
   "short_term": {
-    "timestamp": "2026-10-29T08:11:53.415571+00:00",
+    "timestamp": "2026-10-29T19:07:01.349726+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -119,10 +119,10 @@
           "sma10": 7230.78,
           "gap_pct": 5.82,
           "changed_this_month": false,
-          "live_price": 7743.98,
-          "live_date": "2026-10-28",
-          "live_sma10": 7320.62,
-          "live_gap_pct": 5.78,
+          "live_price": 7703.06,
+          "live_date": "2026-10-29",
+          "live_sma10": 7316.53,
+          "live_gap_pct": 5.28,
           "live_mode": "NORMAL",
           "flip_risk": false
         },
@@ -135,10 +135,10 @@
           "sma10": 27570.38,
           "gap_pct": 10.29,
           "changed_this_month": false,
-          "live_price": 29813.16,
-          "live_date": "2026-10-28",
-          "live_sma10": 28026.71,
-          "live_gap_pct": 6.37,
+          "live_price": 29321.78,
+          "live_date": "2026-10-29",
+          "live_sma10": 27977.57,
+          "live_gap_pct": 4.8,
           "live_mode": "NORMAL",
           "flip_risk": false
         }
@@ -152,7 +152,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-29T07:49:53.718073+00:00",
+    "timestamp": "2026-10-29T18:56:42.719579+00:00",
     "level": "NEUTRAL",
     "score": 0.7,
     "regime": "BULL_MID",
@@ -164,11 +164,11 @@
     "vix": 16.9,
     "vix_3m": 15.9,
     "vix_3m_ago": 15.9,
-    "fg": 36,
+    "fg": 34,
     "fg_1m_ago": 32,
     "rsi_w": 65.0,
-    "hy": 318,
-    "hy_6m_ago": 282,
+    "hy": 314,
+    "hy_6m_ago": 283,
     "yc": 0.29,
     "missing": [],
     "intraday_excluded": true,
@@ -180,7 +180,7 @@
     },
     "late_cycle": {
       "status": "NONE",
-      "hy": 318,
+      "hy": 314,
       "hy_threshold": 350.0,
       "yc": 0.29,
       "yc_threshold": 0.3,
@@ -196,7 +196,7 @@
   "version": "v12",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.4,
+    "long_term_age_h": 0.2,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
