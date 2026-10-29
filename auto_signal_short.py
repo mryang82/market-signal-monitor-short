@@ -667,6 +667,9 @@ def compute_ndx_dd_signal():
             "f60_mean": 11.1, "f60_base": 4.3, "pos60": 90,
             "up15_12m": 79, "up15_12m_base": 64, "wf_periods_beat": "6/6",
             "worst": "2022-01-20: 60일 -6.3%, 진입 후 최대 -28%",
+            # 장기 검증 (2026-10-29, 1986-2026 나스닥100, 같은 정의) — claude/ndx_signal_long_2026-10-29.md
+            "long": "1986-2026 51회: 60일 +7.0% (기준선 +3.9%), 5년 구간 8개 중 5개 우위. 1986-1999는 우위 없음",
+            "long_fail": "큰 약세장 초입에 발동 — 2000-04 12개월 -66%, 2007-11 -38%, 2008-01 -36%, 2022-01 -20% (모두 추세 방어 '정상' 모드에서 발생)",
         },
     }
 
@@ -678,10 +681,12 @@ def format_ndx_dd_message(sig):
         f"NDX {sig['ndx']:,.0f} ({sig['ndx_date']}) · 52주 고점 {sig['high_52w']:,.0f} ({sig['high_52w_date']}) 대비 <b>{sig['dd_pct']:+.1f}%</b>",
         "",
         f"📊 과거 {bt['events']}회 ({bt['period']}): 60일 후 평균 <b>+{bt['f60_mean']}%</b> (기준선 +{bt['f60_base']}%), 상승 {bt['pos60']}%",
-        f"12개월 +15% 이상 {bt['up15_12m']}% (기준선 {bt['up15_12m_base']}%) · WF {bt['wf_periods_beat']} 구간 통과",
+        f"12개월 +15% 이상 {bt['up15_12m']}% (기준선 {bt['up15_12m_base']}%) · WF {bt['wf_periods_beat']} (2011~ 구간)",
         "",
-        f"⚠️ 약세장 초입일 수 있음 — {bt['worst']}",
-        "→ 한 번에 사지 말고 분할 매수 전제",
+        f"장기(1986~): {bt.get('long', '-')}",
+        "",
+        f"⚠️ {bt.get('long_fail', bt['worst'])}",
+        "→ 한 번에 사지 말고 분할 매수 전제. 이후 월말에 방어 모드로 바뀌면 50%로 줄인다",
     ]
     return "\n".join(lines)
 
