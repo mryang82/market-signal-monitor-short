@@ -24,8 +24,9 @@ import sys
 import html
 import json
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import numpy as np
@@ -42,6 +43,55 @@ DATA_UNIFIED_FILE = Path("data_unified.json")
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "")
+
+LONG_TERM_STALE_HOURS = 36   # v8 data.json이 이보다 오래되면 '묵음' 경고
+
+_NY = ZoneInfo("America/New_York")
+_KST = ZoneInfo("Asia/Seoul")
+
+
+def utc_now_iso():
+    """PWA가 시간대를 정확히 읽도록 UTC(+00:00) 포함"""
+    return datetime.now(timezone.utc).isoformat()
+
+
+def kst_now_str():
+    return datetime.now(_KST).strftime("%Y-%m-%d %H:%M")
+
+
+def is_intraday_now():
+    now = datetime.now(_NY)
+    return now.weekday() < 5 and (now.hour, now.minute) < (16, 15)
+
+
+def drop_intraday_bar(series):
+    """마지막 봉이 뉴욕 기준 오늘이고 16:15 전이면 제거 (장중 가격으로 판정하지 않음, 2026-10-29 감사)"""
+    if series is None or len(series) == 0:
+        return series
+    last = series.index[-1]
+    last_date = (last.tz_convert(_NY) if getattr(last, "tzinfo", None) else last).date()
+    now = datetime.now(_NY)
+    if last_date == now.date() and (now.hour, now.minute) < (16, 15):
+        return series.iloc[:-1]
+    return series
+
+
+def stale_limit_hours():
+    """평일 36h. 주말 공백(토 아침 → 월 밤 실행이 화 새벽까지 밀림)이 있는 KST 일·월·화 정오 전은 72h"""
+    k = datetime.now(_KST)
+    weekend_gap = k.weekday() in (6, 0) or (k.weekday() == 1 and k.hour < 12)
+    return LONG_TERM_STALE_HOURS + (36 if weekend_gap else 0)
+
+
+def long_term_age_hours(long_data):
+    """v8 data.json timestamp 경과 시간. 옛 형식(시간대 없음)은 러너 기준 UTC로 해석"""
+    try:
+        ts = datetime.fromisoformat(long_data["timestamp"])
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
+        return (datetime.now(timezone.utc) - ts).total_seconds() / 3600
+    except Exception:
+        return None
 
 # ──────────────────────────────────────────────────────────────
 # yfinance fetch
@@ -79,7 +129,7 @@ def fetch_yfinance(period="6mo"):
             if hist is None or len(hist) == 0:
                 failed.append(name)
                 continue
-            data[name] = hist["Close"].dropna()
+            data[name] = drop_intraday_bar(hist["Close"].dropna())
         except Exception as e:
             print(f"   ❌ {name}: {str(e)[:50]}")
             failed.append(name)
@@ -572,7 +622,7 @@ def compute_ndx_dd_signal():
     """NDX 52주 고점 대비 낙폭 + -10% 첫 진입 사건 탐지 (실패 시 None)"""
     try:
         hist = yf.Ticker("^NDX").history(period="2y", auto_adjust=False)
-        close = hist["Close"].dropna()
+        close = drop_intraday_bar(hist["Close"].dropna())
         close.index = close.index.tz_localize(None)
     except Exception as e:
         print(f"   ❌ NDX 2y fetch 실패: {str(e)[:60]}")
@@ -843,7 +893,7 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
         lines.append(f"  HYG 5d: {indicators['HYG_5d_chg']:+.1f}%")
     
     lines.append("")
-    lines.append(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M')} KST")
+    lines.append(f"📅 {kst_now_str()} KST")
     
     return "\n".join(lines)
 
@@ -872,7 +922,7 @@ def save_state(state):
 def export_data_short(short_sig, indicators, alerts):
     """단기 신호 JSON 출력"""
     return {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": utc_now_iso(),
         "level": short_sig["level"],
         "score": short_sig["score"],
         "buy_score": short_sig["buy_score"],
@@ -888,9 +938,10 @@ def export_data_short(short_sig, indicators, alerts):
         "context_alerts": alerts,
         "indicators": indicators,
         "backtest": {
-            "PANIC_BUY": {"hit_rate_3m_up10": 55.6, "n": 293},
-            "SHIFT_UP": {"hit_rate_3m_up10": 48.9, "n": 689},
-            "CAUTION_UP": {"hit_rate_3m_up10": 31.1, "n": 753},
+            # 사건 단위 (2011-2026, 12M +15% 도달, 기준선 46%) — 2026-10-28 재검증. 일 단위 수치(n=293 등)는 사용 금지
+            "PANIC_BUY": {"events": 12, "hit_12m_up15": 9, "rate": 75, "base": 46},
+            "SHIFT_UP": {"events": 18, "rate": 59, "base": 46, "note": "참고 (우위 작음)"},
+            "CAUTION_UP": {"events": 30, "rate": 46, "base": 46, "note": "정보 없음"},
             "CAUTION_DOWN": {"hit_rate_3m_dn10": 22.8, "n": 381, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
             "SHIFT_DOWN": {"hit_rate_3m_dn10": 26.5, "n": 170, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
         },
@@ -900,7 +951,7 @@ def export_data_short(short_sig, indicators, alerts):
 def export_data_unified(short_data, long_data, conflict):
     """통합 JSON 출력"""
     return {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": utc_now_iso(),
         "short_term": short_data,
         "long_term": long_data,
         "conflict": conflict,
@@ -924,6 +975,7 @@ def main():
     vix = market_data.get("VIX")
     if spx is None or len(spx) == 0 or vix is None or len(vix) == 0:
         print("\n❌ 필수 데이터 (SPX, VIX) 없음 — 종료")
+        send_telegram(f"⚠️ <b>단기 신호 실행 실패</b>\nSPX 또는 VIX 수집 실패 (Yahoo 장애 가능). 앱은 마지막 성공 값입니다.\n📅 {kst_now_str()} KST")
         sys.exit(1)
     
     # 2. 지표 계산
@@ -952,6 +1004,18 @@ def main():
     # 5. 장기 저장소 data.json fetch
     long_data = fetch_long_term_data()
     
+    # 5-1. 시스템 건강 (v8 묵음·결측, 장중 여부) — 2026-10-29
+    lt_age = long_term_age_hours(long_data) if long_data else None
+    health = {
+        "long_term_ok": long_data is not None,
+        "long_term_age_h": round(lt_age, 1) if lt_age is not None else None,
+        "long_term_stale": (long_data is None) or (lt_age is not None and lt_age > stale_limit_hours()),
+        "long_term_missing": (long_data or {}).get("missing", []),
+        "missing_tickers": sorted(set(TICKERS.values()) - set(market_data.keys())),
+        "intraday_excluded": is_intraday_now(),
+    }
+    print(f"   v8 경과 {health['long_term_age_h']}h · 묵음 {health['long_term_stale']} · 장중 제외 {health['intraday_excluded']}")
+
     # 6. 충돌 신호
     print("\n🤝 충돌 신호 계산...")
     long_level = long_data.get("level") if long_data else None
@@ -980,6 +1044,7 @@ def main():
     print(f"   ✓ {DATA_SHORT_FILE}")
     
     data_unified = export_data_unified(data_short, long_data, conflict)
+    data_unified["health"] = health
     DATA_UNIFIED_FILE.write_text(json.dumps(data_unified, indent=2, default=str))
     print(f"   ✓ {DATA_UNIFIED_FILE}")
     
@@ -1029,13 +1094,23 @@ def main():
                 if ok:
                     trend_state[k] = x["mode"]
 
+    # 8-3. v8 묵음 알림 (상태가 바뀔 때 1회)
+    stale_notified = state.get("long_term_stale_notified", False)
+    if health["long_term_stale"] != stale_notified:
+        txt = (f"⚠️ <b>장기 v8 데이터 묵음</b>\n마지막 갱신 {health['long_term_age_h']}시간 전 (기준 {stale_limit_hours()}h). "
+               f"v8 Actions 실패 여부 확인 필요."
+               if health["long_term_stale"] else "✅ <b>장기 v8 데이터 갱신 재개</b>")
+        if send_telegram(txt + f"\n📅 {kst_now_str()} KST"):
+            stale_notified = health["long_term_stale"]
+
     # 9. State 저장
     save_state({
         "last_level": short_sig["level"],
-        "last_run": datetime.now().isoformat(),
+        "last_run": utc_now_iso(),
         "last_conflict_type": conflict["type"],
         "last_ndx_event": last_ndx_event,
         "trend_modes": trend_state,
+        "long_term_stale_notified": stale_notified,
     })
     
     print("\n✅ 완료")
