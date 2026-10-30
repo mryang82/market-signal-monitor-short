@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-30T02:27:32.559381+00:00",
+  "timestamp": "2026-10-30T18:45:38.642079+00:00",
   "short_term": {
-    "timestamp": "2026-10-30T02:27:32.558934+00:00",
+    "timestamp": "2026-10-30T18:45:38.641738+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -47,8 +47,8 @@
       "HYG_5d_chg": 0.6225724597059612,
       "XLP_XLY_ratio": 0.7588640500950523,
       "XLP_XLY_20d_chg": 2.790979155966844,
-      "DXY": 101.72699737548828,
-      "DXY_20d_chg": -0.36532919119225404,
+      "DXY": 102.04000091552734,
+      "DXY_20d_chg": -0.058763525455840515,
       "TNX": 4.988999843597412,
       "TNX_5d_chg_bp": 3.599977493286133,
       "KRE": 72.86000061035156,
@@ -58,8 +58,8 @@
       "IWM_SPX_20d_chg": 1.0772461190542648,
       "SOXX": 513.8599853515625,
       "SOXX_20d_chg": -10.839281294720903,
-      "NDX": 29402.5078125,
-      "RUT": 2859.216552734375
+      "NDX": 29402.509765625,
+      "RUT": 2859.219970703125
     },
     "backtest": {
       "PANIC_BUY": {
@@ -133,10 +133,10 @@
           "sma10": 7230.78,
           "gap_pct": 5.82,
           "changed_this_month": false,
-          "live_price": 7720.39,
-          "live_date": "2026-10-29",
-          "live_sma10": 7318.26,
-          "live_gap_pct": 5.49,
+          "live_price": 7536.72,
+          "live_date": "2026-10-30",
+          "live_sma10": 7299.9,
+          "live_gap_pct": 3.24,
           "live_mode": "NORMAL",
           "flip_risk": false
         },
@@ -149,10 +149,10 @@
           "sma10": 27570.38,
           "gap_pct": 10.29,
           "changed_this_month": false,
-          "live_price": 29402.51,
-          "live_date": "2026-10-29",
-          "live_sma10": 27985.64,
-          "live_gap_pct": 5.06,
+          "live_price": 28148.23,
+          "live_date": "2026-10-30",
+          "live_sma10": 27860.22,
+          "live_gap_pct": 1.03,
           "live_mode": "NORMAL",
           "flip_risk": false
         }
@@ -166,7 +166,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-30T02:10:21.026892+00:00",
+    "timestamp": "2026-10-30T18:35:04.135146+00:00",
     "level": "NEUTRAL",
     "score": 0.7,
     "regime": "BULL_MID",
@@ -178,14 +178,14 @@
     "vix": 17.2,
     "vix_3m": 15.9,
     "vix_3m_ago": 16.5,
-    "fg": 35,
+    "fg": 31,
     "fg_1m_ago": 31,
     "rsi_w": 64.2,
-    "hy": 314,
-    "hy_6m_ago": 283,
+    "hy": 326,
+    "hy_6m_ago": 277,
     "yc": 0.38,
     "missing": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "proximity": {
       "next_level": "WATCH",
       "next_threshold": 1.5,
@@ -194,7 +194,7 @@
     },
     "late_cycle": {
       "status": "NONE",
-      "hy": 314,
+      "hy": 326,
       "hy_threshold": 350.0,
       "yc": 0.38,
       "yc_threshold": 0.3,
@@ -210,10 +210,10 @@
   "version": "v12",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.3,
+    "long_term_age_h": 0.2,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
-    "intraday_excluded": false
+    "intraday_excluded": true
   }
 }
