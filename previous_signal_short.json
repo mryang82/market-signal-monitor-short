@@ -1,7 +1,7 @@
 {
-  "last_level": "NEUTRAL",
-  "last_run": "2026-10-30T18:45:38.642415+00:00",
-  "last_conflict_type": "neutral",
+  "last_level": "CAUTION_DOWN",
+  "last_run": "2026-10-31T01:41:22.218336+00:00",
+  "last_conflict_type": "short_only_sell",
   "last_ndx_event": "2026-07-29",
   "trend_modes": {
     "SPX": "NORMAL",
