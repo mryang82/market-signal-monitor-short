@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-10-31T01:41:20.786980+00:00",
+  "timestamp": "2026-10-31T02:06:55.659942+00:00",
   "short_term": {
-    "timestamp": "2026-10-31T01:41:20.786471+00:00",
+    "timestamp": "2026-10-31T02:06:55.659547+00:00",
     "level": "CAUTION_DOWN",
     "score": -4,
     "buy_score": 0,
@@ -171,7 +171,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-10-31T01:35:31.874488+00:00",
+    "timestamp": "2026-10-31T01:52:06.462061+00:00",
     "level": "WATCH",
     "score": 1.7,
     "regime": "BULL_MID",
@@ -215,7 +215,7 @@
   "version": "v12",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.1,
+    "long_term_age_h": 0.2,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
