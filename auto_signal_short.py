@@ -667,6 +667,25 @@ def format_ndx_dd_message(sig):
 #   2011-2026 강세장에서는 S&P 연 -2.6%p, 나스닥 -2.3%p 손해 (보험료)
 # ──────────────────────────────────────────────────────────────
 
+def _nyse_month_end_holidays(year):
+    """월 마지막 평일이 될 수 있는 NYSE 휴장일: 성금요일(3월 말 가능), 메모리얼데이(5월 마지막 월요일)"""
+    from dateutil.easter import easter
+    gf = easter(year) - pd.Timedelta(days=2).to_pytimedelta()
+    may31 = pd.Timestamp(year=year, month=5, day=31)
+    memorial = (may31 - pd.Timedelta(days=may31.weekday())).date()
+    return {gf, memorial}
+
+
+def last_trading_day(period):
+    """그 달 마지막 NYSE 거래일. 월말 평일이 휴장이면 하루씩 앞당김 (2026-11-03: 휴장 달에 판정이 하루 늦던 문제)
+    임시 휴장은 모름 → 그 경우 다음 달 첫 종가가 들어올 때 확정(기존 동작)"""
+    d = (period.to_timestamp(how="start") + pd.offsets.BMonthEnd(0)).date()
+    hol = _nyse_month_end_holidays(d.year)
+    while d in hol:
+        d = (pd.Timestamp(d) - pd.offsets.BDay(1)).date()
+    return d
+
+
 TREND_INDEXES = {"SPX": ("^GSPC", "S&P 500"), "NDX": ("^NDX", "나스닥100")}
 TREND_MONTHS = 10
 TREND_DEFENSE_EQUITY = 50   # 방어 모드 주식 비중 (%)
@@ -712,7 +731,7 @@ def compute_trend_defense():
         def _closed(p):
             if p < final.index[-1].to_period("M"):
                 return True
-            return last_obs[p] >= (p.to_timestamp(how="start") + pd.offsets.BMonthEnd(0)).date()
+            return last_obs[p] >= last_trading_day(p)
         done = me[[_closed(p) for p in me.index]]
         month_closed = len(done) > 0 and done.index[-1] == cur_month
         if len(done) < TREND_MONTHS + 1:
