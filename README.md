@@ -1,120 +1,58 @@
 # market-signal-monitor-short
 
-**v12 단기 신호 시스템** — v2 단기 매수/매도 + 컨텍스트 알람 + 장기 통합
+**v14 단기·통합 저장소** — v2 단기 신호 + 나스닥100 -10% 첫 진입 + 추세 방어 모드(월말 10개월선) + 장기 v8 통합
 
-## 🎯 시스템 구조
-
-```
-[장기 저장소: market-signal-monitor-auto]
-  KST 07:17, 22:17 실행
-  → data.json 생성
-
-[단기 저장소: market-signal-monitor-short]  ⭐ 이 저장소
-  KST 07:30, 22:30 실행 (장기 +13분)
-  1. yfinance fetch (17개 ticker)
-  2. v2 단기 신호 계산 (3M ±10%)
-  3. 컨텍스트 알람 (KRE/SOXX/IWM)
-  4. 장기 data.json fetch
-  5. 충돌 신호 계산
-  6. data_short.json + data_unified.json 생성
-  7. Telegram 알림 (변경 시)
-
-[통합 PWA: market-signal-pwa]
-  data_unified.json fetch
-  → 4탭 (메인/장기/단기/컨텍스트) 표시
-```
-
-## 📊 v2 단기 신호 정확도 (백테스트, 7,392일)
-
-| 레벨 | n | 3M +10% 적중 | 3M -10% 적중 |
-|---|---:|---:|---:|
-| **PANIC_BUY** | 293 | **55.6%** ⭐ | 46.4% |
-| **SHIFT_UP** | 689 | **48.9%** ⭐ | 16.5% |
-| CAUTION_UP | 753 | 31.1% | 18.1% |
-| NEUTRAL | 4,635 | 8.8% | 8.5% |
-| CAUTION_DOWN | 877 | 11.5% | **31.8%** ⭐ |
-| **SHIFT_DOWN** | 334 | 14.7% | **42.8%** ⭐ |
-
-기저율: 3M +10% = 17.0%, 3M -10% = 15.8%
-
-## 🚦 신호 4-Pillar
-
-- **A. Price Momentum**: SPX 5d/20d, MA50 거리
-- **B. Drawdown Depth**: SPX MA200 이탈
-- **C. Credit & Rotation**: HYG 5d, XLP/XLY 20d
-- **D. Macro Stress**: DXY, VIX 절대값, SKEW
-
-## ⚠️ 컨텍스트 알람 (단독 정보, 행동 권고 X)
-
-- **KRE 20d < -10%**: 은행 스트레스 (단독 -15% 적중 28%)
-- **SOXX 20d < -10%**: 반도체 약세 (단독 -15% 적중 28%)
-- **IWM/SPX 20d < -5%**: 시장 폭 약화 (단독 -15% 적중 26%)
-
-## 🚀 설정
-
-### 1. GitHub Secrets 설정
-
-Repository Settings → Secrets and variables → Actions:
-
-- `TELEGRAM_BOT_TOKEN`: 텔레그램 봇 토큰
-- `TELEGRAM_CHAT_ID`: 채널 ID
-
-(기존 장기 저장소와 동일 봇·채널 사용)
-
-### 2. 저장소 Public 설정
-
-Settings → General → Danger Zone → Change visibility → Public
-
-(통합 PWA가 raw URL로 접근하려면 Public 필요)
-
-### 3. GitHub Actions 활성화
-
-Actions 탭 → "I understand my workflows, go ahead and enable them"
-
-### 4. 첫 수동 실행
-
-Actions → "v12 Short Signal Check" → Run workflow
-
-성공 시 `data_short.json` 및 `data_unified.json` 생성됨.
-
-## 🔗 통합 JSON URL
+## 시스템 구조
 
 ```
-https://raw.githubusercontent.com/mryang82/market-signal-monitor-short/main/data_unified.json
+[장기: market-signal-monitor-auto]   평일 KST 07:17 / 07:47 / 22:17 (예약 시각)
+  → data.json
+
+[단기·통합: 이 저장소]                평일 KST 07:30 / 08:00 / 22:30 (예약 시각)
+  1. yfinance fetch (17개 티커)
+  2. v2 단기 신호 (SPX·VIX 등 4-Pillar)
+  3. 나스닥100 52주 고점 대비 -10% 첫 진입 (★★)
+  4. 추세 방어 모드: 월 마지막 거래일 종가 < 10개월선 → 주식 50%, 위 → 100%
+  5. 장기 data.json 병합 (받은 값이 더 오래됐으면 이전 값 유지)
+  6. data_short.json + data_unified.json (+ health)
+  7. 텔레그램: 레벨 변경 · 나스닥 사건 · 방어 모드 전환 · 입력 결측 · v8 묵음 (전송 성공 시에만 기록 → 실패 시 재시도)
+
+[PWA: market-signal-pwa] → data_unified.json 표시
 ```
 
-PWA가 이 URL에서 데이터를 가져옵니다.
+GitHub 예약 실행은 실제로 아침 약 2시간, 저녁 4~6시간 늦게 돈다. 뉴욕 16:15 전이면 오늘 봉(장중 가격)을 버리고 전일 종가로 판정한다.
 
-## 🛠️ 로컬 테스트
+## 신호 등급 (v14, 사건 단위 검증)
+
+| 신호 | 근거 | 운영 |
+|---|---|---|
+| 추세 방어 (S&P 500) | 1950~2026 연 11.5% / 최대 낙폭 -33% (보유 11.7% / -55%) | 핵심 — 월말에만 확정 |
+| 추세 방어 (나스닥100) | 1986~2026 연 14.6% / -62% (보유 15.4% / -82%) | 강세장에선 연 2~3%p 비용 |
+| 나스닥100 -10% 첫 진입 ★★ | 2011~ 21회 60일 +11.1% (기준선 +4.3%) · 1986~ 51회 +7.0% (+3.9%) | 큰 약세장 초입에선 실패 → 분할 매수 |
+| v2 PANIC_BUY | 2011~ 사건 12회 중 9회 12M +15% (아무 날 46%) · 1990~ 26회 중 14회 (39%) | 2000~2010 약세장 11회 중 2회 |
+| v2 CAUTION_DOWN / SHIFT_DOWN | 3개월 내 -10% 하락 경험 22.8% / 26.5% (평소 12.1%) | **낙폭 위험 경고 — 매도 권고 아님** |
+| v2 SHIFT_UP / CAUTION_UP | 아무 날과 차이 작거나 없음 | 참고 |
+
+운영 제외: 충돌 신호(장기+단기 조합), v8 매도 등급, 현금 비중 점수 규칙.
+과거 문서의 일 단위 적중률 표(n=293 등)는 같은 위기를 반복 집계해 부풀린 수치라 삭제했다.
+
+## 컨텍스트 알람 (참고 정보)
+
+KRE 20일 < -10%, SOXX 20일 < -10%, IWM/SPX 20일 < -5%, VIX9D/VIX > 1.10 — 단독 효과는 검증되지 않았다.
+
+## 설정
+
+- Secrets: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+- 저장소 Public (PWA가 raw URL로 읽음)
+- 수동 실행: Actions → "v14 Short Signal Check" → Run workflow
+
+통합 JSON: `https://raw.githubusercontent.com/mryang82/market-signal-monitor-short/main/data_unified.json`
+
+## 로컬 실행
 
 ```bash
 pip install -r requirements.txt
 python auto_signal_short.py
 ```
 
-`TELEGRAM_BOT_TOKEN`과 `TELEGRAM_CHAT_ID`는 환경변수로 설정 (없으면 알림만 생략).
-
-## 📨 Telegram 알림 정책
-
-- 단기 레벨 변경 시 즉시 알림
-- 충돌 신호 (장기 매수 + 단기 매도 등) 발효 시 알림
-- 변경 없으면 알림 없음 (조용)
-
-## ⚙️ 운영 시간
-
-| 시각 (KST) | 작업 |
-|---|---|
-| 07:17 | 장기 저장소 실행 (별도) |
-| 07:30 | 단기 저장소 실행 (이 저장소) |
-| 22:17 | 장기 저장소 실행 (별도) |
-| 22:30 | 단기 저장소 실행 (이 저장소) |
-
-## 🔍 백테스트 검증
-
-8단계 검증을 거쳐 데이터로 입증된 신호만 활용:
-- ✅ v8 매수 (장기 12M +15% 79.7% 적중)
-- ✅ v2 단기 양방향 (위 표)
-- ❌ v8 매도 (검증 실패, 운영에서 제외)
-- ❌ NAAIM/F&G 매도 (정점에서 작동 안 함)
-
-상세 백테스트 결과는 메인 PWA에서 확인.
+텔레그램 환경변수가 없으면 알림은 생략된다(이때 알림 기록도 갱신되지 않음).

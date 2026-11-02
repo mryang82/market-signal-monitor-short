@@ -11,9 +11,9 @@ auto_signal_short.py — 단기 v2 신호 + 통합 JSON 생성
   2. v2 단기 신호 계산 (3M ±10% 시간 지평)
   3. 컨텍스트 알람 계산 (KRE, SOXX, IWM)
   4. 장기 저장소 data.json fetch
-  5. 충돌 신호 계산
-  6. data_short.json + data_unified.json 저장
-  7. Telegram 알림 (레벨 변경 시)
+  5. 나스닥100 -10% 첫 진입, 추세 방어 모드(월말 10개월선)
+  6. data_short.json + data_unified.json 저장 (충돌 신호는 v14에서 운영 제외)
+  7. Telegram 알림 (레벨 변경·나스닥 사건·방어 모드 전환·결측, 전송 성공 시에만 기록)
 
 GitHub Actions Secrets 필요:
   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
@@ -115,6 +115,19 @@ TICKERS = {
     "IWM": "IWM",
     "SOXX": "SOXX",
 }
+
+
+# v2 점수에 직접 쓰이는 입력 (빠지면 점수가 달라짐)
+SIGNAL_INPUTS = {"SPX", "VIX", "VIX3M", "VVIX", "SKEW", "HYG", "XLP", "XLY", "DXY", "TNX"}
+
+
+def lagging_tickers(market_data):
+    """SPX보다 마지막 날짜가 이른 티커 (Yahoo 지연 → 비율 지표가 다른 날짜끼리 섞임). 표시용"""
+    spx = market_data.get("SPX")
+    if spx is None or len(spx) == 0:
+        return []
+    ref = spx.index[-1]
+    return sorted(k for k, v in market_data.items() if v is not None and len(v) and v.index[-1] < ref)
 
 
 def fetch_yfinance(period="6mo"):
@@ -335,7 +348,7 @@ def compute_context_alerts(d):
             "level": "high",
             "title": "은행 스트레스",
             "desc": f"KRE 20일 {kre_20d:+.1f}% (지방은행 약세)",
-            "backtest": "단독 -15% 도달 적중률 28%",
+            "backtest": "참고 정보 — 단독 효과 검증 안 됨",
         })
     elif kre_5d is not None and kre_5d < -5:
         alerts.append({
@@ -343,7 +356,7 @@ def compute_context_alerts(d):
             "level": "medium",
             "title": "은행 단기 스트레스",
             "desc": f"KRE 5일 {kre_5d:+.1f}%",
-            "backtest": "단독 -15% 적중률 25%",
+            "backtest": "참고 정보 — 단독 효과 검증 안 됨",
         })
     
     # SOXX - 반도체
@@ -354,7 +367,7 @@ def compute_context_alerts(d):
             "level": "high",
             "title": "반도체 약세",
             "desc": f"SOXX 20일 {soxx_20d:+.1f}% (위험자산 선행)",
-            "backtest": "단독 -15% 적중률 28%",
+            "backtest": "참고 정보 — 단독 효과 검증 안 됨",
         })
     
     # IWM/SPX - 시장 폭 약화
@@ -365,7 +378,7 @@ def compute_context_alerts(d):
             "level": "high",
             "title": "시장 폭 약화",
             "desc": f"IWM/SPX 20일 {iwm_spx_20d:+.1f}% (소형주만 약세)",
-            "backtest": "단독 -15% 적중률 26%",
+            "backtest": "참고 정보 — 단독 효과 검증 안 됨",
         })
     
     # VIX9D/VIX 백워데이션 (참고 정보)
@@ -384,87 +397,16 @@ def compute_context_alerts(d):
 
 
 # ──────────────────────────────────────────────────────────────
-# 충돌 신호 (장기 + 단기 결합)
+# 충돌 신호 — v14에서 운영 제외 (2026-11-03 코드 제거)
+#   장기·단기 조합 신호는 Walk-Forward 검증 실패. 매도처럼 읽히는 문구("단기 매도" 등)가
+#   앱·텔레그램에 남아 있던 문제를 막기 위해 계산 자체를 없앰. data_unified.conflict는
+#   신호 미수신 안내(incomplete)일 때만 채우고 그 외엔 null.
 # ──────────────────────────────────────────────────────────────
 
-LONG_BUY_LEVELS = {"CRASH_BUY", "STRONG_BUY", "BUY"}  # WATCH는 관망 등급이라 매수로 보지 않음 (2026-10-28)
-LONG_SELL_LEVELS = {"CAUTION", "WARNING", "STRONG_SELL"}
-SHORT_BUY_LEVELS = {"PANIC_BUY", "SHIFT_UP", "CAUTION_UP"}
-SHORT_SELL_LEVELS = {"SHIFT_DOWN", "CAUTION_DOWN"}
-
-
 def compute_conflict(long_level, short_level):
-    """장기 vs 단기 신호 충돌 분석"""
     if not long_level or not short_level:
-        return {"type": "incomplete", "title": "장기 또는 단기 신호 미수신", "level": "info"}
-    
-    long_is_buy = long_level in LONG_BUY_LEVELS
-    long_is_sell = long_level in LONG_SELL_LEVELS
-    short_is_buy = short_level in SHORT_BUY_LEVELS
-    short_is_sell = short_level in SHORT_SELL_LEVELS
-    
-    if long_is_buy and short_is_buy:
-        return {
-            "type": "buy_agree",
-            "title": "장기·단기 매수 방향 일치",
-            "desc": f"장기 {long_level} + 단기 {short_level} — 참고용 (Walk-Forward 1/6 구간만 안정)",
-            "level": "info",
-        }
-    if long_is_sell and short_is_sell:
-        return {
-            "type": "sell_agree",
-            "title": "📉 매도 합의",
-            "desc": f"장기 {long_level} + 단기 {short_level} — 장·단기 모두 약세 (참고, 매도 권고 아님)",
-            "level": "warn",
-        }
-    if long_is_buy and short_is_sell:
-        return {
-            "type": "conflict_buy_sell",
-            "title": "장기 매수 + 단기 매도 (참고)",
-            "desc": f"장기 {long_level} / 단기 {short_level} — 방향 불일치. Walk-Forward 실패 신호라 행동 권고 없음",
-            "level": "info",
-        }
-    if long_is_sell and short_is_buy:
-        return {
-            "type": "conflict_sell_buy",
-            "title": "⚠️ 충돌: 장기 매도 + 단기 매수",
-            "desc": f"장기 {long_level} + 단기 {short_level} — 단기 반등 가능하나 장기 위험",
-            "level": "warn",
-        }
-    if long_is_buy:
-        return {
-            "type": "long_only_buy",
-            "title": "장기만 매수",
-            "desc": f"장기 {long_level} + 단기 중립 — 분할 매수 가능",
-            "level": "info",
-        }
-    if short_is_buy:
-        return {
-            "type": "short_only_buy",
-            "title": "단기만 매수",
-            "desc": f"단기 {short_level} — 단기 반등 시도 (장기 신호 대기)",
-            "level": "info",
-        }
-    if short_is_sell:
-        return {
-            "type": "short_only_sell",
-            "title": "단기 매도",
-            "desc": f"단기 {short_level} — 낙폭 위험 경고: 3개월 내 -10% 하락 확률 약 23~27% (평소 12%) · 매도 권고 아님",
-            "level": "warn",
-        }
-    if long_is_sell:
-        return {
-            "type": "long_only_sell",
-            "title": "장기만 매도 (참고)",
-            "desc": f"장기 {long_level} (역사적으로 신뢰 낮음, 백테스트 16%)",
-            "level": "info",
-        }
-    return {
-        "type": "neutral",
-        "title": "중립",
-        "desc": "양쪽 신호 없음 — 현 포지션 유지",
-        "level": "info",
-    }
+        return {"type": "incomplete", "title": "장기 또는 단기 신호 미수신", "desc": "", "level": "info"}
+    return None
 
 
 # ──────────────────────────────────────────────────────────────
@@ -481,7 +423,7 @@ def fetch_long_term_data():
             print(f"   ❌ HTTP {r.status_code}")
             return None
         data = r.json()
-        print(f"   ✓ 장기 신호: {data.get('level')} (score {data.get('score')})")
+        print(f"   ✓ 장기 신호: {data.get('level')} (score {data.get('score')}, {data.get('timestamp')})")
         return data
     except Exception as e:
         print(f"   ❌ {str(e)[:80]}")
@@ -491,6 +433,31 @@ def fetch_long_term_data():
 # ──────────────────────────────────────────────────────────────
 # 데이터 가공
 # ──────────────────────────────────────────────────────────────
+
+def _ts(x):
+    try:
+        t = datetime.fromisoformat(x["timestamp"])
+        return t if t.tzinfo else t.replace(tzinfo=timezone.utc)
+    except Exception:
+        return None
+
+
+def pick_long_term(fetched):
+    """받은 v8 data.json이 실패했거나 이미 반영된 값보다 오래됐으면(CDN 캐시 등) 이전 값을 유지 (2026-11-03)"""
+    prev = None
+    try:
+        prev = json.loads(DATA_UNIFIED_FILE.read_text()).get("long_term")
+    except Exception:
+        pass
+    if fetched is None:
+        if prev:
+            print("   ↩︎ 장기 fetch 실패 → 이전 값 유지 (health.long_term_ok=false)")
+        return prev, False
+    if prev and _ts(prev) and _ts(fetched) and _ts(fetched) < _ts(prev):
+        print(f"   ↩︎ 받은 장기 데이터가 더 오래됨 ({fetched.get('timestamp')} < {prev.get('timestamp')}) → 이전 값 유지")
+        return prev, True
+    return fetched, True
+
 
 def build_indicators(market_data):
     """fetched market data → v2가 필요한 형식으로 변환"""
@@ -755,11 +722,12 @@ def compute_trend_defense():
         mode = "DEFENSE" if done.iloc[-1] < sma.iloc[-1] else "NORMAL"
         prev_mode = "DEFENSE" if done.iloc[-2] < sma.iloc[-2] else "NORMAL"
         # 이번 달 진행 중 미리보기: 오늘 종가를 이번 달 월말로 가정
-        if month_closed or close.index[-1].to_period("M") <= done.index[-1]:
+        # 미리보기도 장중 봉 제외한 종가(final)로 (2026-11-03)
+        if month_closed or final.index[-1].to_period("M") <= done.index[-1]:
             live_sma = sma.iloc[-1]  # 이번 달이 이미 확정됨 → 미리보기 = 확정값
         else:
-            live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], close.iloc[-1:]]).mean()
-        live_gap = (float(close.iloc[-1]) / float(live_sma) - 1) * 100
+            live_sma = pd.concat([done.iloc[-(TREND_MONTHS - 1):], final.iloc[-1:]]).mean()
+        live_gap = (float(final.iloc[-1]) / float(live_sma) - 1) * 100
         live_mode = "DEFENSE" if live_gap < 0 else "NORMAL"
         out[key] = {
             "name": name,
@@ -770,8 +738,8 @@ def compute_trend_defense():
             "sma10": round(float(sma.iloc[-1]), 2),
             "gap_pct": round((float(done.iloc[-1]) / float(sma.iloc[-1]) - 1) * 100, 2),
             "changed_this_month": mode != prev_mode,
-            "live_price": round(float(close.iloc[-1]), 2),
-            "live_date": str(close.index[-1].date()),
+            "live_price": round(float(final.iloc[-1]), 2),
+            "live_date": str(final.index[-1].date()),
             "live_sma10": round(float(live_sma), 2),
             "live_gap_pct": round(live_gap, 2),
             "live_mode": live_mode,
@@ -825,6 +793,8 @@ def send_telegram(message):
     }
     try:
         r = requests.post(url, json=payload, timeout=15)
+        if r.status_code != 200:
+            print(f"   ❌ Telegram {r.status_code}: {r.text[:200]}")
         return r.status_code == 200
     except Exception as e:
         print(f"   ❌ Telegram 실패: {e}")
@@ -841,13 +811,25 @@ LEVEL_EMOJI = {
 }
 
 
-def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
-    """Telegram 알림 메시지 생성"""
+def _f(v, fmt, dflt="-"):
+    try:
+        return format(float(v), fmt)
+    except (TypeError, ValueError):
+        return dflt
+
+
+def format_telegram_message(short_sig, long_data, alerts, indicators):
+    """Telegram 알림 메시지 생성 (충돌 신호 제거, v14)"""
     short_emoji = LEVEL_EMOJI.get(short_sig["level"], "⚪")
     
     lines = []
-    lines.append(f"{short_emoji} <b>단기 {short_sig['level']}</b>")
+    lines.append(f"{short_emoji} <b>단기 {html.escape(short_sig['level'])}</b>")
     lines.append(f"점수: {short_sig['score']:+d}")
+    if short_sig["level"] in ("CAUTION_DOWN", "SHIFT_DOWN"):
+        lines.append("<i>낙폭 위험 경고 (참고) — 3개월 내 -10% 하락 경험 약 23~27% (평소 12%). "
+                     "이후 수익은 평소와 같음 → 매도 권고 아님</i>")
+    elif short_sig["level"] in ("SHIFT_UP", "CAUTION_UP"):
+        lines.append("<i>참고 — 아무 날과 차이 작음 · 현 포지션 유지</i>")
     if short_sig["level"] == "PANIC_BUY":
         lines.append("2011~ 사건 12회 중 9회 12M+15% (아무 날 46%) · 1990~ 26회 중 14회 (기준선 39%)")
         lines.append("<i>2000~2010 약세장에선 11회 중 2회 — 방어 모드 중이면 주식 50% 안에서만 분할 매수</i>")
@@ -855,18 +837,9 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
     
     # 장기 신호
     if long_data:
-        lines.append(f"📊 장기: <b>{long_data.get('level', '?')}</b> (점수 {long_data.get('score', 0):+.1f})")
+        lines.append(f"📊 장기: <b>{html.escape(str(long_data.get('level', '?')))}</b> (점수 {_f(long_data.get('score'), '+.1f')})")
     else:
         lines.append("📊 장기: 신호 없음")
-    
-    # 충돌
-    if conflict["level"] in ("danger", "warn"):
-        lines.append("")
-        lines.append(conflict["title"])
-        lines.append(f"<i>{conflict['desc']}</i>")
-    elif conflict["type"] in ("buy_agree", "sell_agree"):
-        lines.append("")
-        lines.append(conflict["title"])
     
     # 활성 트리거 (단기)
     if short_sig["triggers_buy"]:
@@ -878,7 +851,7 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
         lines.append("")
         lines.append("⚠️ <b>낙폭 위험 트리거 (매도 권고 아님):</b>")
         for t in short_sig["triggers_sell"][:5]:
-            lines.append(f"  • [{t['pillar']}] {html.escape(t['name'])}")
+            lines.append(f"  • [{html.escape(str(t['pillar']))}] {html.escape(t['name'])}")
     
     # 컨텍스트 알람
     if alerts:
@@ -891,7 +864,7 @@ def format_telegram_message(short_sig, long_data, conflict, alerts, indicators):
     lines.append("")
     lines.append("📊 핵심 지표:")
     if indicators.get("SPX"):
-        lines.append(f"  SPX: {indicators['SPX']:.0f} (5d {indicators.get('SPX_5d_chg', 0):+.1f}%, 20d {indicators.get('SPX_20d_chg', 0):+.1f}%)")
+        lines.append(f"  SPX: {indicators['SPX']:.0f} (5d {_f(indicators.get('SPX_5d_chg'), '+.1f')}%, 20d {_f(indicators.get('SPX_20d_chg'), '+.1f')}%)")
     if indicators.get("VIX"):
         vix_str = f"  VIX: {indicators['VIX']:.1f}"
         if indicators.get("VIX_VIX3M_ratio"):
@@ -951,8 +924,9 @@ def export_data_short(short_sig, indicators, alerts):
                           "long": "1990-2026 26회 중 14회 (기준선 39%), 2000-2010은 11회 중 2회. 신호 당시 깊은 방어 모드 7회 중 2회"},
             "SHIFT_UP": {"events": 18, "rate": 59, "base": 46, "note": "참고 (우위 작음)"},
             "CAUTION_UP": {"events": 30, "rate": 46, "base": 46, "note": "정보 없음"},
-            "CAUTION_DOWN": {"hit_rate_3m_dn10": 22.8, "n": 381, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
-            "SHIFT_DOWN": {"hit_rate_3m_dn10": 26.5, "n": 170, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험"},
+            # 낙폭 경고: 일 단위 표본 수(n)는 같은 위기를 반복 집계하므로 표시하지 않음 (2026-11-03)
+            "CAUTION_DOWN": {"hit_rate_3m_dn10": 22.8, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험 (발생일 기준 비율)"},
+            "SHIFT_DOWN": {"hit_rate_3m_dn10": 26.5, "base": 12.1, "def": "2011-2026, 63일 내 SPX -10% 하락 경험 (발생일 기준 비율)"},
         },
     }
 
@@ -964,7 +938,7 @@ def export_data_unified(short_data, long_data, conflict):
         "short_term": short_data,
         "long_term": long_data,
         "conflict": conflict,
-        "version": "v12",
+        "version": "v14",
     }
 
 
@@ -974,7 +948,7 @@ def export_data_unified(short_data, long_data, conflict):
 
 def main():
     print("=" * 70)
-    print("auto_signal_short.py — v12 단기 + 통합")
+    print("auto_signal_short.py — v14 단기 + 추세 방어 + 통합")
     print(f"실행 시각: {datetime.now().isoformat()}")
     print("=" * 70)
     
@@ -1011,25 +985,25 @@ def main():
             print(f"   • [{a['level']}] {a['title']}: {a['desc']}")
     
     # 5. 장기 저장소 data.json fetch
-    long_data = fetch_long_term_data()
+    long_fetched = fetch_long_term_data()
+    long_data, long_ok = pick_long_term(long_fetched)
     
     # 5-1. 시스템 건강 (v8 묵음·결측, 장중 여부) — 2026-10-29
     lt_age = long_term_age_hours(long_data) if long_data else None
     health = {
-        "long_term_ok": long_data is not None,
+        "long_term_ok": long_ok,
         "long_term_age_h": round(lt_age, 1) if lt_age is not None else None,
         "long_term_stale": (long_data is None) or (lt_age is not None and lt_age > stale_limit_hours()),
         "long_term_missing": (long_data or {}).get("missing", []),
         "missing_tickers": sorted(set(TICKERS.values()) - set(market_data.keys())),
+        "lagging_tickers": lagging_tickers(market_data),
         "intraday_excluded": is_intraday_now(),
     }
     print(f"   v8 경과 {health['long_term_age_h']}h · 묵음 {health['long_term_stale']} · 장중 제외 {health['intraday_excluded']}")
 
-    # 6. 충돌 신호
-    print("\n🤝 충돌 신호 계산...")
+    # 6. 충돌 신호 — 운영 제외 (미수신 안내만)
     long_level = long_data.get("level") if long_data else None
     conflict = compute_conflict(long_level, short_sig["level"])
-    print(f"   ⇒ {conflict['title']}")
     
     # 6-1. ★★ NDX -10% 첫 진입 (보조 신호)
     print("\n🟦 NDX 52주 고점 대비 낙폭...")
@@ -1053,28 +1027,37 @@ def main():
     print(f"   ✓ {DATA_SHORT_FILE}")
     
     data_unified = export_data_unified(data_short, long_data, conflict)
+    health["trend_missing"] = sorted(set(TREND_INDEXES) - set((trend or {}).get("indexes", {})))
     data_unified["health"] = health
     DATA_UNIFIED_FILE.write_text(json.dumps(data_unified, indent=2, default=str))
     print(f"   ✓ {DATA_UNIFIED_FILE}")
     
-    # 8. Telegram 알림 (단기 레벨 변경 또는 충돌 발생 시)
+    # 8. Telegram 알림 (단기 레벨 변경 시) — 전송 성공 시에만 기록 → 실패하면 다음 실행에 재시도 (2026-11-03)
     state = load_state()
     last_level = state.get("last_level")
-    last_conflict = state.get("last_conflict_type")
+    sig_missing = sorted(SIGNAL_INPUTS - set(market_data.keys()))
     
-    notify_reasons = []
     if last_level != short_sig["level"]:
-        notify_reasons.append(f"레벨 변경: {last_level} → {short_sig['level']}")
-    if conflict["type"] != last_conflict and conflict["level"] in ("danger", "warn"):
-        notify_reasons.append(f"충돌 신호: {conflict['type']}")
-    
-    if notify_reasons:
-        print(f"\n📨 Telegram 알림 발송: {notify_reasons}")
-        msg = format_telegram_message(short_sig, long_data, conflict, alerts, indicators)
-        ok = send_telegram(msg)
-        print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패'}")
+        if sig_missing:
+            # 입력 일부가 빠져 점수가 흔들린 것일 수 있음 → 레벨 알림 보류, 결측 알림으로 안내
+            print(f"\n⏸ 레벨 변경 {last_level} → {short_sig['level']} 알림 보류: 신호 입력 결측 {sig_missing}")
+        else:
+            print(f"\n📨 Telegram 알림 발송: 레벨 변경 {last_level} → {short_sig['level']}")
+            ok = send_telegram(format_telegram_message(short_sig, long_data, alerts, indicators))
+            print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패 — 다음 실행에 재시도'}")
+            if ok:
+                last_level = short_sig["level"]
     else:
         print(f"\n🔕 알림 조건 미충족 (현 레벨 유지: {short_sig['level']})")
+
+    # 8-0. 단기 신호 입력 결측 알림 (구성이 바뀔 때 1회)
+    missing_notified = state.get("missing_notified", [])
+    if sig_missing != missing_notified:
+        txt = (f"⚠️ <b>단기 신호 입력 결측</b>: {html.escape(', '.join(sig_missing))}\n"
+               f"해당 항목 점수 빠진 채 계산 — 레벨 변경 알림 보류 중"
+               if sig_missing else "✅ <b>단기 신호 입력 결측 해소</b>")
+        if send_telegram(txt + f"\n📅 {kst_now_str()} KST"):
+            missing_notified = sig_missing
 
     # 8-1. NDX -10% 첫 진입 알림 (사건 날짜가 바뀌었고 아직 유효 기간일 때 1회)
     #      cron 누락에도 놓치지 않도록 '오늘 발동'이 아니라 '새 사건 + active' 기준
@@ -1114,9 +1097,9 @@ def main():
 
     # 9. State 저장
     save_state({
-        "last_level": short_sig["level"],
+        "last_level": last_level,
         "last_run": utc_now_iso(),
-        "last_conflict_type": conflict["type"],
+        "missing_notified": missing_notified,
         "last_ndx_event": last_ndx_event,
         "trend_modes": trend_state,
         "long_term_stale_notified": stale_notified,
@@ -1126,4 +1109,17 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception as e:
+        # 실패를 조용히 넘기지 않음 (2026-11-03)
+        import traceback
+        traceback.print_exc()
+        try:
+            send_telegram(f"⚠️ <b>단기 신호 실행 실패</b>\n{html.escape(type(e).__name__ + ': ' + str(e))[:300]}\n"
+                          f"앱은 마지막 성공 값입니다.\n📅 {kst_now_str()} KST")
+        except Exception:
+            pass
+        sys.exit(1)
