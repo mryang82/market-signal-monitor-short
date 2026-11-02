@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-31T02:06:55.659547+00:00",
+  "timestamp": "2026-11-02T16:23:06.202336+00:00",
   "level": "CAUTION_DOWN",
   "score": -4,
   "buy_score": 0,
@@ -29,7 +29,7 @@
       "level": "high",
       "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
       "desc": "SOXX 20\uc77c -19.9% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
-      "backtest": "\ub2e8\ub3c5 -15% \uc801\uc911\ub960 28%"
+      "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
     }
   ],
   "indicators": {
@@ -50,8 +50,8 @@
     "HYG_5d_chg": 0.49318265849087606,
     "XLP_XLY_ratio": 0.7750043360856154,
     "XLP_XLY_20d_chg": 5.900259710823974,
-    "DXY": 101.96399688720703,
-    "DXY_20d_chg": 0.033352871509340076,
+    "DXY": 101.87999725341797,
+    "DXY_20d_chg": -0.04905626568046939,
     "TNX": 4.928999900817871,
     "TNX_5d_chg_bp": -5.900001525878906,
     "KRE": 72.01000213623047,
@@ -61,8 +61,8 @@
     "IWM_SPX_20d_chg": 1.0893533788057352,
     "SOXX": 471.510009765625,
     "SOXX_20d_chg": -19.933776495464905,
-    "NDX": 28384.845703125,
-    "RUT": 2811.84423828125
+    "NDX": 28384.849609375,
+    "RUT": 2811.840087890625
   },
   "backtest": {
     "PANIC_BUY": {
@@ -86,15 +86,13 @@
     },
     "CAUTION_DOWN": {
       "hit_rate_3m_dn10": 22.8,
-      "n": 381,
       "base": 12.1,
-      "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8"
+      "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8 (\ubc1c\uc0dd\uc77c \uae30\uc900 \ube44\uc728)"
     },
     "SHIFT_DOWN": {
       "hit_rate_3m_dn10": 26.5,
-      "n": 170,
       "base": 12.1,
-      "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8"
+      "def": "2011-2026, 63\uc77c \ub0b4 SPX -10% \ud558\ub77d \uacbd\ud5d8 (\ubc1c\uc0dd\uc77c \uae30\uc900 \ube44\uc728)"
     }
   },
   "ndx_dd": {

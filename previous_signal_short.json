@@ -1,7 +1,7 @@
 {
   "last_level": "CAUTION_DOWN",
-  "last_run": "2026-10-31T02:06:55.660429+00:00",
-  "last_conflict_type": "short_only_sell",
+  "last_run": "2026-11-02T16:23:06.211585+00:00",
+  "missing_notified": [],
   "last_ndx_event": "2026-07-29",
   "trend_modes": {
     "SPX": "NORMAL",
