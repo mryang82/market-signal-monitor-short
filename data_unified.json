@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-05T03:18:25.563621+00:00",
+  "timestamp": "2026-11-05T20:46:07.380338+00:00",
   "short_term": {
-    "timestamp": "2026-11-05T03:18:25.563040+00:00",
+    "timestamp": "2026-11-05T20:46:07.379622+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -20,15 +20,7 @@
         "pillar": "C"
       }
     ],
-    "context_alerts": [
-      {
-        "id": "soxx_20d",
-        "level": "high",
-        "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
-        "desc": "SOXX 20\uc77c -22.7% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
-        "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
-      }
-    ],
+    "context_alerts": [],
     "indicators": {
       "SPX": 7688.6201171875,
       "SPX_5d_chg": -0.7148761156520855,
@@ -47,8 +39,8 @@
       "HYG_5d_chg": -0.09021742251331677,
       "XLP_XLY_ratio": 0.7515736210678807,
       "XLP_XLY_20d_chg": 2.442156703953313,
-      "DXY": 101.2770004272461,
-      "DXY_20d_chg": -0.9418989208182404,
+      "DXY": 101.51000213623047,
+      "DXY_20d_chg": -0.7140020958448678,
       "TNX": 4.894000053405762,
       "TNX_5d_chg_bp": -15.10000228881836,
       "KRE": 74.12999725341797,
@@ -57,9 +49,9 @@
       "IWM_SPX_ratio": 0.036940307192282834,
       "IWM_SPX_20d_chg": 3.7809753318151618,
       "SOXX": 450.4100036621094,
-      "SOXX_20d_chg": -22.71885007345854,
-      "NDX": 28437.166015625,
-      "RUT": 2856.94970703125
+      "SOXX_20d_chg": 131.84345584950933,
+      "NDX": 28437.169921875,
+      "RUT": 2856.949951171875
     },
     "backtest": {
       "PANIC_BUY": {
@@ -164,9 +156,9 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-05T02:51:25.205559+00:00",
-    "level": "WATCH",
-    "score": 2.2,
+    "timestamp": "2026-11-05T20:38:42.229578+00:00",
+    "level": "NEUTRAL",
+    "score": 0.7,
     "regime": "BULL_MID",
     "spx": 7689,
     "spx_high": 7819,
@@ -176,23 +168,23 @@
     "vix": 16.6,
     "vix_3m": 16.2,
     "vix_3m_ago": 15.5,
-    "fg": 27,
+    "fg": 34,
     "fg_1m_ago": 43,
     "rsi_w": 59.4,
-    "hy": 340,
-    "hy_6m_ago": 277,
+    "hy": 332,
+    "hy_6m_ago": 275,
     "yc": 0.34,
     "missing": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "proximity": {
-      "next_level": "BUY",
-      "next_threshold": 4.0,
-      "gap": 1.8,
+      "next_level": "WATCH",
+      "next_threshold": 1.5,
+      "gap": 0.8,
       "capped": null
     },
     "late_cycle": {
       "status": "NEAR",
-      "hy": 340,
+      "hy": 332,
       "hy_threshold": 350.0,
       "yc": 0.34,
       "yc_threshold": 0.3,
@@ -203,12 +195,12 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.5,
+    "long_term_age_h": 0.1,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
     "lagging_tickers": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "trend_missing": []
   }
 }
