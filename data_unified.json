@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-05T02:36:52.451186+00:00",
+  "timestamp": "2026-11-05T03:18:25.563621+00:00",
   "short_term": {
-    "timestamp": "2026-11-05T02:36:52.450681+00:00",
+    "timestamp": "2026-11-05T03:18:25.563040+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -47,8 +47,8 @@
       "HYG_5d_chg": -0.09021742251331677,
       "XLP_XLY_ratio": 0.7515736210678807,
       "XLP_XLY_20d_chg": 2.442156703953313,
-      "DXY": 101.31300354003906,
-      "DXY_20d_chg": -0.9066846078827684,
+      "DXY": 101.2770004272461,
+      "DXY_20d_chg": -0.9418989208182404,
       "TNX": 4.894000053405762,
       "TNX_5d_chg_bp": -15.10000228881836,
       "KRE": 74.12999725341797,
@@ -164,7 +164,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-05T02:28:39.876502+00:00",
+    "timestamp": "2026-11-05T02:51:25.205559+00:00",
     "level": "WATCH",
     "score": 2.2,
     "regime": "BULL_MID",
@@ -203,7 +203,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.1,
+    "long_term_age_h": 0.5,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
