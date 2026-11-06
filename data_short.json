@@ -1,55 +1,92 @@
 {
-  "timestamp": "2026-11-05T20:46:07.379622+00:00",
-  "level": "NEUTRAL",
-  "score": 0,
-  "buy_score": 0,
-  "sell_score": -1,
+  "timestamp": "2026-11-06T02:37:13.730716+00:00",
+  "level": "SHIFT_UP",
+  "score": 7,
+  "buy_score": 7,
+  "sell_score": -4,
   "pillars": {
-    "A_price_momentum": 0,
+    "A_price_momentum": 3,
     "B_drawdown": 0,
     "C_credit_rotation": 1,
     "D_macro_stress": 0
   },
-  "triggers_buy": [],
+  "triggers_buy": [
+    {
+      "name": "VIX 25-30",
+      "weight": 2
+    },
+    {
+      "name": "VIX/VIX3M > 1.05 (deep BW)",
+      "weight": 2
+    },
+    {
+      "name": "SPX 5d -3~-5%",
+      "weight": 2
+    },
+    {
+      "name": "VVIX > 120",
+      "weight": 1
+    }
+  ],
   "triggers_sell": [
+    {
+      "name": "SPX 20d < -5%",
+      "weight": 3,
+      "pillar": "A"
+    },
     {
       "name": "XLP/XLY 20d > +2%",
       "weight": 1,
       "pillar": "C"
     }
   ],
-  "context_alerts": [],
+  "context_alerts": [
+    {
+      "id": "soxx_20d",
+      "level": "high",
+      "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
+      "desc": "SOXX 20\uc77c -29.8% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
+      "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
+    },
+    {
+      "id": "vix9d_bw",
+      "level": "medium",
+      "title": "\ub2e8\uae30 \ubc31\uc6cc\ub370\uc774\uc158",
+      "desc": "VIX9D/VIX = 1.16 (\ub2e8\uae30 \ud328\ub2c9 \uc784\ubc15)",
+      "backtest": "\ub2e8\ub3c5 \ud6a8\uacfc \uc57d\ud568 (\ucc38\uace0\uc6a9)"
+    }
+  ],
   "indicators": {
-    "SPX": 7688.6201171875,
-    "SPX_5d_chg": -0.7148761156520855,
-    "SPX_20d_chg": -1.4503106610485372,
-    "SPX_pct_above_MA50": -0.05653624967307813,
-    "SPX_pct_above_MA200": 5.030841379526807,
-    "VIX": 16.610000610351562,
-    "VIX_5d_chg": -1.7740936710088695,
-    "VIX3M": 18.799999237060547,
-    "VIX_VIX3M_ratio": 0.8835107066179115,
-    "VIX9D": 15.1899995803833,
-    "VIX9D_VIX_ratio": 0.9145092728603935,
-    "VVIX": 90.41000366210938,
-    "SKEW": 150.89999389648438,
-    "HYG": 77.5199966430664,
-    "HYG_5d_chg": -0.09021742251331677,
-    "XLP_XLY_ratio": 0.7515736210678807,
-    "XLP_XLY_20d_chg": 2.442156703953313,
-    "DXY": 101.51000213623047,
-    "DXY_20d_chg": -0.7140020958448678,
-    "TNX": 4.894000053405762,
-    "TNX_5d_chg_bp": -15.10000228881836,
-    "KRE": 74.12999725341797,
-    "KRE_5d_chg": 2.801271149589235,
-    "KRE_20d_chg": 7.606325896639365,
-    "IWM_SPX_ratio": 0.036940307192282834,
-    "IWM_SPX_20d_chg": 3.7809753318151618,
-    "SOXX": 450.4100036621094,
-    "SOXX_20d_chg": 131.84345584950933,
-    "NDX": 28437.169921875,
-    "RUT": 2856.949951171875
+    "SPX": 7353.72998046875,
+    "SPX_5d_chg": -4.749243882198872,
+    "SPX_20d_chg": -5.300847482405868,
+    "SPX_pct_above_MA50": -4.3296526203588925,
+    "SPX_pct_above_MA200": 0.42326077020045094,
+    "VIX": 28.18000030517578,
+    "VIX_5d_chg": 63.83720380928555,
+    "VIX3M": 25.549999237060547,
+    "VIX_VIX3M_ratio": 1.1029354656222607,
+    "VIX9D": 32.65999984741211,
+    "VIX9D_VIX_ratio": 1.1589779806146239,
+    "VVIX": 134.99000549316406,
+    "SKEW": 149.3699951171875,
+    "HYG": 77.27999877929688,
+    "HYG_5d_chg": -0.3867015270393126,
+    "XLP_XLY_ratio": 0.7756715443168339,
+    "XLP_XLY_20d_chg": 3.872296100987249,
+    "DXY": 101.65699768066406,
+    "DXY_20d_chg": -0.4728820362939312,
+    "TNX": 4.836999893188477,
+    "TNX_5d_chg_bp": -15.199995040893555,
+    "KRE": 72.30999755859375,
+    "KRE_5d_chg": -0.7548765401460544,
+    "KRE_20d_chg": 3.9086095183800573,
+    "IWM_SPX_ratio": 0.03684932839607132,
+    "IWM_SPX_20d_chg": 3.090495430035256,
+    "SOXX": 131.89999389648438,
+    "SOXX_20d_chg": -29.750746828189655,
+    "NDX": 26629.80859375,
+    "RUT": 2729.88671875
   },
   "backtest": {
     "PANIC_BUY": {
@@ -84,16 +121,16 @@
   },
   "ndx_dd": {
     "grade": "\u2605\u2605",
-    "ndx": 28437.17,
-    "ndx_date": "2026-11-04",
-    "dd_pct": -8.93,
+    "ndx": 26629.81,
+    "ndx_date": "2026-11-05",
+    "dd_pct": -14.71,
     "high_52w": 31224.47,
     "high_52w_date": "2026-10-06",
     "trigger_level": 28102.0,
     "triggered_today": false,
     "active": true,
     "last_event_date": "2026-11-02",
-    "days_since_event": 2,
+    "days_since_event": 3,
     "backtest": {
       "period": "2011-2026",
       "events": 21,
@@ -121,10 +158,10 @@
         "sma10": 7304.23,
         "gap_pct": 3.78,
         "changed_this_month": false,
-        "live_price": 7688.62,
-        "live_date": "2026-11-04",
-        "live_sma10": 7379.19,
-        "live_gap_pct": 4.19,
+        "live_price": 7353.73,
+        "live_date": "2026-11-05",
+        "live_sma10": 7345.7,
+        "live_gap_pct": 0.11,
         "live_mode": "NORMAL",
         "flip_risk": false
       },
@@ -137,12 +174,12 @@
         "sma10": 27883.88,
         "gap_pct": 1.8,
         "changed_this_month": false,
-        "live_price": 28437.17,
-        "live_date": "2026-11-04",
-        "live_sma10": 28172.36,
-        "live_gap_pct": 0.94,
-        "live_mode": "NORMAL",
-        "flip_risk": false
+        "live_price": 26629.81,
+        "live_date": "2026-11-05",
+        "live_sma10": 27991.62,
+        "live_gap_pct": -4.87,
+        "live_mode": "DEFENSE",
+        "flip_risk": true
       }
     },
     "backtest": {
