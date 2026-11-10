@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-10T04:30:59.312331+00:00",
+  "timestamp": "2026-11-10T20:32:41.878832+00:00",
   "short_term": {
-    "timestamp": "2026-11-10T04:30:59.311802+00:00",
+    "timestamp": "2026-11-10T20:32:41.878457+00:00",
     "level": "CAUTION_DOWN",
     "score": -3,
     "buy_score": 0,
@@ -52,8 +52,8 @@
       "HYG_5d_chg": 0.806350307586956,
       "XLP_XLY_ratio": 0.751094932527366,
       "XLP_XLY_20d_chg": -0.1001991529065216,
-      "DXY": 101.68599700927734,
-      "DXY_20d_chg": -0.8715196001358394,
+      "DXY": 101.6500015258789,
+      "DXY_20d_chg": -0.9066097568485643,
       "TNX": 4.863999843597412,
       "TNX_5d_chg_bp": -3.000020980834961,
       "KRE": 73.44999694824219,
@@ -63,8 +63,8 @@
       "IWM_SPX_20d_chg": 5.123387977910099,
       "SOXX": 146.75999450683594,
       "SOXX_20d_chg": -19.192442215581185,
-      "NDX": 27907.625,
-      "RUT": 2840.812255859375
+      "NDX": 27907.630859375,
+      "RUT": 2840.81005859375
     },
     "backtest": {
       "PANIC_BUY": {
@@ -99,7 +99,7 @@
     },
     "ndx_dd": {
       "grade": "\u2605\u2605",
-      "ndx": 27907.62,
+      "ndx": 27907.63,
       "ndx_date": "2026-11-09",
       "dd_pct": -10.62,
       "high_52w": 31224.47,
@@ -152,7 +152,7 @@
           "sma10": 27883.88,
           "gap_pct": 1.8,
           "changed_this_month": false,
-          "live_price": 27907.62,
+          "live_price": 27907.63,
           "live_date": "2026-11-09",
           "live_sma10": 28119.4,
           "live_gap_pct": -0.75,
@@ -169,7 +169,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-10T04:21:11.237842+00:00",
+    "timestamp": "2026-11-10T20:27:19.171165+00:00",
     "level": "NEUTRAL",
     "score": 0.2,
     "regime": "BULL_MID",
@@ -184,11 +184,11 @@
     "fg": 32,
     "fg_1m_ago": 44,
     "rsi_w": 40.2,
-    "hy": 342,
+    "hy": 334,
     "hy_6m_ago": 279,
     "yc": 0.35,
     "missing": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "proximity": {
       "next_level": "WATCH",
       "next_threshold": 1.5,
@@ -197,7 +197,7 @@
     },
     "late_cycle": {
       "status": "NEAR",
-      "hy": 342,
+      "hy": 334,
       "hy_threshold": 350.0,
       "yc": 0.35,
       "yc_threshold": 0.3,
@@ -208,12 +208,12 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.2,
+    "long_term_age_h": 0.1,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
     "lagging_tickers": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "trend_missing": []
   }
 }
