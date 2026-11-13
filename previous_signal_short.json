@@ -1,6 +1,12 @@
 {
-  "last_level": "NEUTRAL",
-  "last_run": "2026-11-13T03:15:38.022668+00:00",
+  "digest": {
+    "date": "2026-11-12",
+    "v8": "NEUTRAL",
+    "v2": "NEUTRAL",
+    "lc": "NEAR"
+  },
+  "last_level": "BASE",
+  "last_run": "2026-11-13T06:28:36.386702+00:00",
   "missing_notified": [],
   "last_ndx_event": "2026-11-02",
   "trend_modes": {

@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-13T03:15:38.022393+00:00",
+  "timestamp": "2026-11-13T06:28:36.386266+00:00",
   "short_term": {
-    "timestamp": "2026-11-13T03:15:38.022022+00:00",
+    "timestamp": "2026-11-13T06:28:36.385905+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -39,10 +39,10 @@
       "HYG_5d_chg": -0.3881928404528501,
       "XLP_XLY_ratio": 0.7559355657535566,
       "XLP_XLY_20d_chg": -1.0952296047575305,
-      "DXY": 103.16400146484375,
-      "DXY_20d_chg": 1.1411779067095562,
-      "TNX": 5.102999687194824,
-      "TNX_5d_chg_bp": 26.599979400634766,
+      "DXY": 103.16999816894531,
+      "DXY_20d_chg": 1.1470570283777626,
+      "TNX": 5.103000164031982,
+      "TNX_5d_chg_bp": 26.600027084350586,
       "KRE": 72.5199966430664,
       "KRE_5d_chg": 0.29041500700162093,
       "KRE_20d_chg": 3.971321352066526,
@@ -50,8 +50,8 @@
       "IWM_SPX_20d_chg": 3.2433937524582346,
       "SOXX": 154.99000549316406,
       "SOXX_20d_chg": -9.663694773716003,
-      "NDX": 28289.1875,
-      "RUT": 2799.060302734375
+      "NDX": 28289.189453125,
+      "RUT": 2799.06005859375
     },
     "backtest": {
       "PANIC_BUY": {
@@ -156,7 +156,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-13T02:57:40.795902+00:00",
+    "timestamp": "2026-11-13T06:27:41.873865+00:00",
     "level": "NEUTRAL",
     "score": 0.7,
     "regime": "BULL_MID",
@@ -175,7 +175,7 @@
     "hy_6m_ago": 282,
     "yc": 0.25,
     "missing": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "proximity": {
       "next_level": "WATCH",
       "next_threshold": 1.5,
@@ -189,18 +189,39 @@
       "yc": 0.25,
       "yc_threshold": 0.3,
       "desc": "LATE_CYCLE: HY 350bp \uc774\uc0c1 \uadf8\ub9ac\uace0 2s10s 0.3% \ubbf8\ub9cc \u2192 \ub9e4\ub3c4 \uac00\uc911\uce58 1.10x, \ub9e4\uc218 0.95x"
+    },
+    "fg_provisional": false,
+    "fg_debug": {
+      "fetched_utc": "2026-11-13T06:27:41.867455+00:00",
+      "top_score": 39.8,
+      "top_timestamp": "2026-11-13T01:00:00+00:00",
+      "top_previous_close": 39.8,
+      "last_points": [
+        {
+          "t_utc": "2026-11-12T00:00",
+          "v": 39.8
+        },
+        {
+          "t_utc": "2026-11-13T00:00",
+          "v": 39.8
+        },
+        {
+          "t_utc": "2026-11-13T01:00",
+          "v": 39.8
+        }
+      ]
     }
   },
   "conflict": null,
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.3,
+    "long_term_age_h": 0.0,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
     "lagging_tickers": [],
-    "intraday_excluded": false,
+    "intraday_excluded": true,
     "trend_missing": []
   }
 }
