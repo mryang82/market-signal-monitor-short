@@ -902,6 +902,66 @@ def format_telegram_message(short_sig, long_data, alerts, indicators):
 # State 관리
 # ──────────────────────────────────────────────────────────────
 
+# ──────────────────────────────────────────────────────────────
+# 알림 정책 (2026-11-13): 즉시 알림은 행동 신호만 — v2 PANIC_BUY 진입·이탈, 나스닥 -10%, 추세 방어 전환, 장애.
+#   참고 등급(v8 WATCH·BUY·매도 등급, v2 CAUTION_*·SHIFT_*, LATE_CYCLE) 변화는 종가일마다 한 번 요약.
+#   근거: 11/2~11/10 알림 8건 중 7건이 참고 등급 변화 (claude/accuracy_review_2026-11-11.md)
+# ──────────────────────────────────────────────────────────────
+V2_ACTION_LEVELS = ("PANIC_BUY",)
+V8_ACTION_LEVELS = ("STRONG_BUY", "CRASH_BUY")
+LC_LABEL = {"NONE": "해당 없음", "NEAR": "임박", "ACTIVE": "진입", "UNKNOWN": "판정 보류"}
+
+
+def v2_alert_level(level):
+    return level if level in V2_ACTION_LEVELS else "BASE"
+
+
+def digest_snapshot(short_sig, long_data, sig_missing):
+    """요약 비교 대상. 값을 믿을 수 없으면 None (그 항목은 비교·갱신하지 않음)"""
+    lc = ((long_data or {}).get("late_cycle") or {}).get("status")
+    return {
+        "v8": (long_data or {}).get("level"),
+        "v2": None if sig_missing else short_sig["level"],
+        "lc": None if lc in (None, "UNKNOWN") else lc,
+    }
+
+
+def format_digest(prev, cur, data_date, short_sig, long_data, ndx_dd, trend):
+    E = html.escape
+    names = {"v8": "장기 v8", "v2": "단기 v2", "lc": "LATE_CYCLE"}
+    lines = [f"📋 <b>참고 요약</b> ({data_date} 종가 기준)", "<i>행동 신호 아님 — 현 포지션 유지</i>", ""]
+    for k in ("v8", "v2", "lc"):
+        a, b = prev.get(k), cur.get(k)
+        if b is None or a == b or b in V8_ACTION_LEVELS + V2_ACTION_LEVELS or a in V8_ACTION_LEVELS + V2_ACTION_LEVELS:
+            continue
+        fa, fb = (LC_LABEL.get(a, a), LC_LABEL.get(b, b)) if k == "lc" else (a, b)
+        extra = ""
+        if k == "v8":
+            extra = f" (점수 {_f((long_data or {}).get('score'), '+.1f')})"
+        elif k == "v2":
+            extra = f" (점수 {short_sig['score']:+d})"
+        elif k == "lc":
+            lcd = (long_data or {}).get("late_cycle") or {}
+            extra = f" (HY {_f(lcd.get('hy'), '.0f')}bp · 2s10s {_f(lcd.get('yc'), '+.2f')}%)"
+        lines.append(f"• {names[k]}: {E(str(fa or '-'))} → <b>{E(str(fb))}</b>{extra}")
+    if cur.get("v2") in ("CAUTION_DOWN", "SHIFT_DOWN"):
+        lines.append("  <i>낙폭 위험 경고 — 매도 권고 아님</i>")
+    lines.append("")
+    prox = (long_data or {}).get("proximity") or {}
+    if prox.get("next_level") in V8_ACTION_LEVELS and prox.get("gap") is not None and prox["gap"] <= 1:
+        lines.append(f"• {E(prox['next_level'])}까지 {_f(prox['gap'], '.1f')}점")
+    if ndx_dd:
+        lines.append(f"• 나스닥100 낙폭 {_f(ndx_dd.get('dd_pct'), '.1f')}% (발동선 -10%)")
+    if trend:
+        t = " · ".join(f"{E(x['name'])} {_f(x.get('live_gap_pct'), '+.1f')}%{' ⚠️전환 가능' if x.get('flip_risk') else ''}"
+                       for x in trend["indexes"].values())
+        lines.append(f"• 추세 방어 이번 달 진행: {t}")
+    if (long_data or {}).get("fg_provisional"):
+        lines.append("<i>v8은 F&amp;G 잠정값 기준 — 확정값으로 달라지면 다음 요약에 반영</i>")
+    lines.append(f"📅 {kst_now_str()} KST")
+    return "\n".join(lines)
+
+
 def load_state():
     if STATE_FILE.exists():
         try:
@@ -1053,21 +1113,23 @@ def main():
     
     # 8. Telegram 알림 (단기 레벨 변경 시) — 전송 성공 시에만 기록 → 실패하면 다음 실행에 재시도 (2026-11-03)
     state = load_state()
-    last_level = state.get("last_level")
+    # last_level에는 '즉시 알림 기준 등급'(PANIC_BUY 또는 BASE)을 기록. 옛 상태값(NEUTRAL 등)은 BASE로 읽음
+    last_level = v2_alert_level(state.get("last_level")) if state.get("last_level") else "BASE"
+    cur_alert = v2_alert_level(short_sig["level"])
     sig_missing = sorted(SIGNAL_INPUTS - set(market_data.keys()))
     
-    if last_level != short_sig["level"]:
+    if last_level != cur_alert:
         if sig_missing:
             # 입력 일부가 빠져 점수가 흔들린 것일 수 있음 → 레벨 알림 보류, 결측 알림으로 안내
-            print(f"\n⏸ 레벨 변경 {last_level} → {short_sig['level']} 알림 보류: 신호 입력 결측 {sig_missing}")
+            print(f"\n⏸ 행동 등급 변경 {last_level} → {cur_alert} 알림 보류: 신호 입력 결측 {sig_missing}")
         else:
-            print(f"\n📨 Telegram 알림 발송: 레벨 변경 {last_level} → {short_sig['level']}")
+            print(f"\n📨 Telegram 알림 발송: 행동 등급 변경 {last_level} → {cur_alert} (원 등급 {short_sig['level']})")
             ok = send_telegram(format_telegram_message(short_sig, long_data, alerts, indicators))
             print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패 — 다음 실행에 재시도'}")
             if ok:
-                last_level = short_sig["level"]
+                last_level = cur_alert
     else:
-        print(f"\n🔕 알림 조건 미충족 (현 레벨 유지: {short_sig['level']})")
+        print(f"\n🔕 즉시 알림 없음 (행동 등급 변화 없음, 현재 {short_sig['level']} — 참고 등급은 하루 요약으로)")
 
     # 8-0. 단기 신호 입력 결측 알림 (구성이 바뀔 때 1회)
     missing_notified = state.get("missing_notified", [])
@@ -1114,8 +1176,37 @@ def main():
         if send_telegram(txt + f"\n📅 {kst_now_str()} KST"):
             stale_notified = health["long_term_stale"]
 
+    # 8-4. 참고 요약: 종가일마다 한 번, 참고 항목이 직전 요약과 달라졌을 때만 (전송 성공 시에만 기록)
+    digest = state.get("digest")
+    try:
+        data_date = str(market_data["SPX"].index[-1].date())
+        cur = digest_snapshot(short_sig, long_data, sig_missing)
+        if not digest:
+            digest = {"date": data_date, **cur}   # 첫 배포: 알림 없이 기준만 기록
+            print(f"\n📋 참고 요약 기준 기록: {digest}")
+        elif data_date > digest.get("date", ""):
+            # 행동 등급 진입·이탈은 즉시 알림이 이미 나가므로 요약 사유에서 제외 (같은 내용 중복 방지)
+            act = {"v8": V8_ACTION_LEVELS, "v2": V2_ACTION_LEVELS, "lc": ()}
+            changed = [k for k in ("v8", "v2", "lc") if cur[k] is not None and cur[k] != digest.get(k)
+                       and cur[k] not in act[k] and digest.get(k) not in act[k]]
+            merged = {k: (cur[k] if cur[k] is not None else digest.get(k)) for k in ("v8", "v2", "lc")}
+            if changed:
+                print(f"\n📨 참고 요약 발송 ({data_date}): 변경 {changed}")
+                ok = send_telegram(format_digest(digest, cur, data_date, short_sig, long_data, ndx_dd, trend))
+                print(f"   {'✓ 발송 성공' if ok else '❌ 발송 실패 — 다음 실행에 재시도'}")
+                if ok:
+                    digest = {"date": data_date, **merged}
+            else:
+                digest = {"date": data_date, **merged}
+                print(f"\n📋 참고 요약 없음 ({data_date}): 참고 등급 변화 없음")
+        else:
+            print(f"\n📋 참고 요약: {digest.get('date')} 종가분 이미 처리")
+    except Exception as e:
+        print(f"⚠️ 참고 요약 오류(무시하고 계속): {type(e).__name__}: {e}")
+
     # 9. State 저장
     save_state({
+        "digest": digest,
         "last_level": last_level,
         "last_run": utc_now_iso(),
         "missing_notified": missing_notified,
