@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-14T02:31:29.578646+00:00",
+  "timestamp": "2026-11-14T02:57:08.084421+00:00",
   "short_term": {
-    "timestamp": "2026-11-14T02:31:29.578349+00:00",
+    "timestamp": "2026-11-14T02:57:08.084182+00:00",
     "level": "NEUTRAL",
     "score": 0,
     "buy_score": 0,
@@ -156,7 +156,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-14T02:27:02.020434+00:00",
+    "timestamp": "2026-11-14T02:42:46.552206+00:00",
     "level": "NEUTRAL",
     "score": 0.2,
     "regime": "BULL_MID",
@@ -192,7 +192,7 @@
     },
     "fg_provisional": true,
     "fg_debug": {
-      "fetched_utc": "2026-11-14T02:27:02.013562+00:00",
+      "fetched_utc": "2026-11-14T02:42:46.540122+00:00",
       "top_score": 38.6,
       "top_timestamp": "2026-11-13T23:59:56+00:00",
       "top_previous_close": 39.8,
@@ -216,7 +216,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.1,
+    "long_term_age_h": 0.2,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
