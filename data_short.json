@@ -1,30 +1,22 @@
 {
-  "timestamp": "2026-11-21T03:50:06.205131+00:00",
-  "level": "PANIC_BUY",
-  "score": 9,
-  "buy_score": 9,
-  "sell_score": -6,
+  "timestamp": "2026-11-24T01:07:36.226876+00:00",
+  "level": "CAUTION_UP",
+  "score": 3,
+  "buy_score": 3,
+  "sell_score": -4,
   "pillars": {
     "A_price_momentum": 3,
-    "B_drawdown": 2,
+    "B_drawdown": 0,
     "C_credit_rotation": 1,
     "D_macro_stress": 0
   },
   "triggers_buy": [
     {
-      "name": "VIX > 30 (panic)",
-      "weight": 3
-    },
-    {
-      "name": "SPX 5d < -5%",
-      "weight": 3
-    },
-    {
-      "name": "VIX/VIX3M > 1.05 (deep BW)",
+      "name": "VIX 25-30",
       "weight": 2
     },
     {
-      "name": "VVIX > 120",
+      "name": "VIX/VIX3M > 1.0 (BW)",
       "weight": 1
     }
   ],
@@ -33,11 +25,6 @@
       "name": "SPX 20d < -5%",
       "weight": 3,
       "pillar": "A"
-    },
-    {
-      "name": "SPX MA200 -5~-10% (downtrend)",
-      "weight": 2,
-      "pillar": "B"
     },
     {
       "name": "XLP/XLY 20d > +2%",
@@ -59,37 +46,30 @@
       "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
       "desc": "SOXX 20\uc77c -22.6% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
       "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
-    },
-    {
-      "id": "vix9d_bw",
-      "level": "medium",
-      "title": "\ub2e8\uae30 \ubc31\uc6cc\ub370\uc774\uc158",
-      "desc": "VIX9D/VIX = 1.13 (\ub2e8\uae30 \ud328\ub2c9 \uc784\ubc15)",
-      "backtest": "\ub2e8\ub3c5 \ud6a8\uacfc \uc57d\ud568 (\ucc38\uace0\uc6a9)"
     }
   ],
   "indicators": {
-    "SPX": 6910.39013671875,
-    "SPX_5d_chg": -8.612909474826136,
-    "SPX_20d_chg": -9.356242951120441,
-    "SPX_pct_above_MA50": -9.37498008519836,
-    "SPX_pct_above_MA200": -5.962922866011066,
-    "VIX": 35.88999938964844,
-    "VIX_5d_chg": 85.95855341139693,
-    "VIX3M": 30.940000534057617,
-    "VIX_VIX3M_ratio": 1.1599870320022148,
-    "VIX9D": 40.720001220703125,
-    "VIX9D_VIX_ratio": 1.1345779301530938,
-    "VVIX": 138.02999877929688,
-    "SKEW": 138.83999633789062,
+    "SPX": 7237.169921875,
+    "SPX_5d_chg": -2.4191700721619136,
+    "SPX_20d_chg": -5.726367945604971,
+    "SPX_pct_above_MA50": -4.994096210897481,
+    "SPX_pct_above_MA200": -1.5365052116621425,
+    "VIX": 26.6200008392334,
+    "VIX_5d_chg": 16.193806270323343,
+    "VIX3M": 25.5,
+    "VIX_VIX3M_ratio": 1.0439216015385646,
+    "VIX9D": 27.760000228881836,
+    "VIX9D_VIX_ratio": 1.0428249193729653,
+    "VVIX": 117.36000061035156,
+    "SKEW": 140.3699951171875,
     "HYG": 76.33000183105469,
     "HYG_5d_chg": -0.7928263464978547,
     "XLP_XLY_ratio": 0.8043748872568012,
     "XLP_XLY_20d_chg": 3.075907907802611,
-    "DXY": 103.83999633789062,
-    "DXY_20d_chg": 1.9939090737415732,
-    "TNX": 4.911999702453613,
-    "TNX_5d_chg_bp": -24.200010299682617,
+    "DXY": 104.25800323486328,
+    "DXY_20d_chg": 2.253829120267792,
+    "TNX": 4.918000221252441,
+    "TNX_5d_chg_bp": -20.299959182739258,
     "KRE": 68.31999969482422,
     "KRE_5d_chg": -6.076434284784094,
     "KRE_20d_chg": -5.7134963317099885,
@@ -97,8 +77,8 @@
     "IWM_SPX_20d_chg": 2.664461302052201,
     "SOXX": 123.4000015258789,
     "SOXX_20d_chg": -22.584688675699795,
-    "NDX": 25028.982421875,
-    "RUT": 2581.78955078125
+    "NDX": 26746.095703125,
+    "RUT": 2669.655029296875
   },
   "backtest": {
     "PANIC_BUY": {
@@ -133,16 +113,16 @@
   },
   "ndx_dd": {
     "grade": "\u2605\u2605",
-    "ndx": 25028.98,
-    "ndx_date": "2026-11-20",
-    "dd_pct": -19.84,
+    "ndx": 26746.1,
+    "ndx_date": "2026-11-23",
+    "dd_pct": -14.34,
     "high_52w": 31224.47,
     "high_52w_date": "2026-10-06",
     "trigger_level": 28102.0,
     "triggered_today": false,
     "active": false,
     "last_event_date": "2026-11-02",
-    "days_since_event": 14,
+    "days_since_event": 15,
     "backtest": {
       "period": "2011-2026",
       "events": 21,
@@ -170,10 +150,10 @@
         "sma10": 7304.23,
         "gap_pct": 3.78,
         "changed_this_month": false,
-        "live_price": 6910.39,
-        "live_date": "2026-11-20",
-        "live_sma10": 7301.37,
-        "live_gap_pct": -5.35,
+        "live_price": 7237.17,
+        "live_date": "2026-11-23",
+        "live_sma10": 7334.05,
+        "live_gap_pct": -1.32,
         "live_mode": "DEFENSE",
         "flip_risk": true
       },
@@ -186,10 +166,10 @@
         "sma10": 27883.88,
         "gap_pct": 1.8,
         "changed_this_month": false,
-        "live_price": 25028.98,
-        "live_date": "2026-11-20",
-        "live_sma10": 27831.54,
-        "live_gap_pct": -10.07,
+        "live_price": 26746.1,
+        "live_date": "2026-11-23",
+        "live_sma10": 28003.25,
+        "live_gap_pct": -4.49,
         "live_mode": "DEFENSE",
         "flip_risk": true
       }

@@ -1,12 +1,12 @@
 {
   "digest": {
-    "date": "2026-11-20",
+    "date": "2026-11-23",
     "v8": "WATCH",
-    "v2": "PANIC_BUY",
+    "v2": "CAUTION_UP",
     "lc": "ACTIVE"
   },
-  "last_level": "PANIC_BUY",
-  "last_run": "2026-11-21T03:50:06.206330+00:00",
+  "last_level": "BASE",
+  "last_run": "2026-11-24T01:07:37.392466+00:00",
   "missing_notified": [],
   "last_ndx_event": "2026-11-02",
   "trend_modes": {
