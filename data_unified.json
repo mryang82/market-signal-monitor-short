@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-24T06:10:31.866016+00:00",
+  "timestamp": "2026-11-24T06:49:56.883949+00:00",
   "short_term": {
-    "timestamp": "2026-11-24T06:10:31.865613+00:00",
+    "timestamp": "2026-11-24T06:49:56.883521+00:00",
     "level": "CAUTION_UP",
     "score": 3,
     "buy_score": 3,
@@ -173,7 +173,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-24T06:03:29.996104+00:00",
+    "timestamp": "2026-11-24T06:28:19.334301+00:00",
     "level": "WATCH",
     "score": 2.18,
     "regime": "LATE_CYCLE",
@@ -209,7 +209,7 @@
     },
     "fg_provisional": false,
     "fg_debug": {
-      "fetched_utc": "2026-11-24T06:03:29.990171+00:00",
+      "fetched_utc": "2026-11-24T06:28:19.306583+00:00",
       "top_score": 17.0,
       "top_timestamp": "2026-11-24T01:00:00+00:00",
       "top_previous_close": 17.0,
@@ -233,7 +233,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.1,
+    "long_term_age_h": 0.4,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
