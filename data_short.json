@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-11-24T01:07:36.226876+00:00",
+  "timestamp": "2026-11-24T06:10:31.865613+00:00",
   "level": "CAUTION_UP",
   "score": 3,
   "buy_score": 3,
-  "sell_score": -4,
+  "sell_score": -3,
   "pillars": {
     "A_price_momentum": 3,
     "B_drawdown": 0,
-    "C_credit_rotation": 1,
+    "C_credit_rotation": 0,
     "D_macro_stress": 0
   },
   "triggers_buy": [
@@ -25,26 +25,14 @@
       "name": "SPX 20d < -5%",
       "weight": 3,
       "pillar": "A"
-    },
-    {
-      "name": "XLP/XLY 20d > +2%",
-      "weight": 1,
-      "pillar": "C"
     }
   ],
   "context_alerts": [
     {
-      "id": "kre_5d",
-      "level": "medium",
-      "title": "\uc740\ud589 \ub2e8\uae30 \uc2a4\ud2b8\ub808\uc2a4",
-      "desc": "KRE 5\uc77c -6.1%",
-      "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
-    },
-    {
       "id": "soxx_20d",
       "level": "high",
       "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
-      "desc": "SOXX 20\uc77c -22.6% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
+      "desc": "SOXX 20\uc77c -14.5% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
       "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
     }
   ],
@@ -62,23 +50,23 @@
     "VIX9D_VIX_ratio": 1.0428249193729653,
     "VVIX": 117.36000061035156,
     "SKEW": 140.3699951171875,
-    "HYG": 76.33000183105469,
-    "HYG_5d_chg": -0.7928263464978547,
-    "XLP_XLY_ratio": 0.8043748872568012,
-    "XLP_XLY_20d_chg": 3.075907907802611,
-    "DXY": 104.25800323486328,
-    "DXY_20d_chg": 2.253829120267792,
+    "HYG": 76.5199966430664,
+    "HYG_5d_chg": -0.2736956922708256,
+    "XLP_XLY_ratio": 0.7729410503509372,
+    "XLP_XLY_20d_chg": 0.40501021318055663,
+    "DXY": 104.31999969482422,
+    "DXY_20d_chg": 2.3146338088884555,
     "TNX": 4.918000221252441,
     "TNX_5d_chg_bp": -20.299959182739258,
-    "KRE": 68.31999969482422,
-    "KRE_5d_chg": -6.076434284784094,
-    "KRE_20d_chg": -5.7134963317099885,
-    "IWM_SPX_ratio": 0.0371339360404633,
-    "IWM_SPX_20d_chg": 2.664461302052201,
-    "SOXX": 123.4000015258789,
-    "SOXX_20d_chg": -22.584688675699795,
-    "NDX": 26746.095703125,
-    "RUT": 2669.655029296875
+    "KRE": 69.54000091552734,
+    "KRE_5d_chg": -3.6708705309018486,
+    "KRE_20d_chg": -4.386088676155875,
+    "IWM_SPX_ratio": 0.0367187717164346,
+    "IWM_SPX_20d_chg": 1.765975596527225,
+    "SOXX": 140.22000122070312,
+    "SOXX_20d_chg": -14.470444026027085,
+    "NDX": 26746.099609375,
+    "RUT": 2669.659912109375
   },
   "backtest": {
     "PANIC_BUY": {
