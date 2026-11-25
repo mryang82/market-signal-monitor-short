@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-11-25T05:17:08.539612+00:00",
+  "timestamp": "2026-11-25T22:40:05.406227+00:00",
   "short_term": {
-    "timestamp": "2026-11-25T05:17:08.539056+00:00",
-    "level": "CAUTION_UP",
-    "score": 3,
-    "buy_score": 3,
-    "sell_score": -5,
+    "timestamp": "2026-11-25T22:40:05.405687+00:00",
+    "level": "SHIFT_UP",
+    "score": 4,
+    "buy_score": 4,
+    "sell_score": -7,
     "pillars": {
       "A_price_momentum": 3,
       "B_drawdown": 1,
-      "C_credit_rotation": 1,
+      "C_credit_rotation": 3,
       "D_macro_stress": 0
     },
     "triggers_buy": [
@@ -18,8 +18,8 @@
         "weight": 2
       },
       {
-        "name": "VIX/VIX3M > 1.0 (BW)",
-        "weight": 1
+        "name": "VIX/VIX3M > 1.05 (deep BW)",
+        "weight": 2
       }
     ],
     "triggers_sell": [
@@ -34,8 +34,8 @@
         "pillar": "B"
       },
       {
-        "name": "XLP/XLY 20d > +2%",
-        "weight": 1,
+        "name": "XLP/XLY 20d > +4% (defensive rotation)",
+        "weight": 3,
         "pillar": "C"
       }
     ],
@@ -44,41 +44,41 @@
         "id": "soxx_20d",
         "level": "high",
         "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
-        "desc": "SOXX 20\uc77c -24.5% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
+        "desc": "SOXX 20\uc77c -26.4% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
         "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
       }
     ],
     "indicators": {
-      "SPX": 7201.08984375,
-      "SPX_5d_chg": -1.8995896139297752,
-      "SPX_20d_chg": -6.753039744535316,
-      "SPX_pct_above_MA50": -5.372175205020757,
-      "SPX_pct_above_MA200": -2.04312781687771,
-      "VIX": 26.360000610351562,
-      "VIX_5d_chg": 3.5349629153277995,
-      "VIX3M": 25.469999313354492,
-      "VIX_VIX3M_ratio": 1.0349431221433296,
-      "VIX9D": 26.68000030517578,
-      "VIX9D_VIX_ratio": 1.0121395936045068,
-      "VVIX": 114.06999969482422,
-      "SKEW": 139.16000366210938,
-      "HYG": 76.43000030517578,
-      "HYG_5d_chg": -0.2609904155167708,
-      "XLP_XLY_ratio": 0.7804960609978252,
-      "XLP_XLY_20d_chg": 3.3944535658517516,
-      "DXY": 103.80999755859375,
-      "DXY_20d_chg": 1.4562137101383321,
-      "TNX": 4.904000282287598,
-      "TNX_5d_chg_bp": -19.899988174438477,
-      "KRE": 69.76000213623047,
-      "KRE_5d_chg": -1.5384564027743242,
-      "KRE_20d_chg": -3.885367351448077,
-      "IWM_SPX_ratio": 0.03709716451882555,
-      "IWM_SPX_20d_chg": 2.250900786969745,
-      "SOXX": 128.6199951171875,
-      "SOXX_20d_chg": -24.498104489713434,
-      "NDX": 26214.169921875,
-      "RUT": 2684.93994140625
+      "SPX": 7182.77978515625,
+      "SPX_5d_chg": -1.9232279608613845,
+      "SPX_20d_chg": -7.246922083062124,
+      "SPX_pct_above_MA50": -5.52115136103547,
+      "SPX_pct_above_MA200": -2.308212003928012,
+      "VIX": 28.290000915527344,
+      "VIX_5d_chg": 15.187302649405154,
+      "VIX3M": 26.290000915527344,
+      "VIX_VIX3M_ratio": 1.076074550412768,
+      "VIX9D": 29.610000610351562,
+      "VIX9D_VIX_ratio": 1.0466595847333366,
+      "VVIX": 115.37999725341797,
+      "SKEW": 142.05999755859375,
+      "HYG": 76.5199966430664,
+      "HYG_5d_chg": -0.16960845430460392,
+      "XLP_XLY_ratio": 0.7855988146223333,
+      "XLP_XLY_20d_chg": 4.333390775761137,
+      "DXY": 103.70500183105469,
+      "DXY_20d_chg": 1.4825319047400143,
+      "TNX": 4.8480000495910645,
+      "TNX_5d_chg_bp": -21.79999351501465,
+      "KRE": 69.83000183105469,
+      "KRE_5d_chg": -0.9784385207845303,
+      "KRE_20d_chg": -3.1618343641638735,
+      "IWM_SPX_ratio": 0.03743258225357645,
+      "IWM_SPX_20d_chg": 3.0527778389443316,
+      "SOXX": 127.9800033569336,
+      "SOXX_20d_chg": -26.43981693311663,
+      "NDX": 26046.896484375,
+      "RUT": 2704.06103515625
     },
     "backtest": {
       "PANIC_BUY": {
@@ -113,16 +113,16 @@
     },
     "ndx_dd": {
       "grade": "\u2605\u2605",
-      "ndx": 26214.17,
-      "ndx_date": "2026-11-24",
-      "dd_pct": -16.05,
+      "ndx": 26046.9,
+      "ndx_date": "2026-11-25",
+      "dd_pct": -16.58,
       "high_52w": 31224.47,
       "high_52w_date": "2026-10-06",
       "trigger_level": 28102.0,
       "triggered_today": false,
       "active": false,
       "last_event_date": "2026-11-02",
-      "days_since_event": 16,
+      "days_since_event": 17,
       "backtest": {
         "period": "2011-2026",
         "events": 21,
@@ -150,10 +150,10 @@
           "sma10": 7304.23,
           "gap_pct": 3.78,
           "changed_this_month": false,
-          "live_price": 7201.09,
-          "live_date": "2026-11-24",
-          "live_sma10": 7330.44,
-          "live_gap_pct": -1.76,
+          "live_price": 7182.78,
+          "live_date": "2026-11-25",
+          "live_sma10": 7328.61,
+          "live_gap_pct": -1.99,
           "live_mode": "DEFENSE",
           "flip_risk": true
         },
@@ -166,10 +166,10 @@
           "sma10": 27883.88,
           "gap_pct": 1.8,
           "changed_this_month": false,
-          "live_price": 26214.17,
-          "live_date": "2026-11-24",
-          "live_sma10": 27950.06,
-          "live_gap_pct": -6.21,
+          "live_price": 26046.9,
+          "live_date": "2026-11-25",
+          "live_sma10": 27933.33,
+          "live_gap_pct": -6.75,
           "live_mode": "DEFENSE",
           "flip_risk": true
         }
@@ -183,58 +183,58 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-25T05:03:21.226582+00:00",
+    "timestamp": "2026-11-25T22:28:41.265866+00:00",
     "level": "WATCH",
-    "score": 2.18,
+    "score": 2.66,
     "regime": "LATE_CYCLE",
-    "spx": 7201,
+    "spx": 7183,
     "spx_high": 7819,
-    "spx_ma200": 7351,
-    "ixic": 23734,
+    "spx_ma200": 7352,
+    "ixic": 23586,
     "ixic_high": 27600,
-    "vix": 26.4,
-    "vix_3m": 18.2,
-    "vix_3m_ago": 14.4,
-    "fg": 17,
+    "vix": 28.3,
+    "vix_3m": 18.4,
+    "vix_3m_ago": 14.9,
+    "fg": 15,
     "fg_1m_ago": 30,
-    "rsi_w": 37.4,
-    "hy": 363,
-    "hy_6m_ago": 274,
-    "yc": 0.29,
+    "rsi_w": 36.8,
+    "hy": 372,
+    "hy_6m_ago": 272,
+    "yc": 0.28,
     "missing": [],
-    "intraday_excluded": true,
+    "intraday_excluded": false,
     "proximity": {
       "next_level": "BUY",
       "next_threshold": 4.0,
-      "gap": 1.82,
+      "gap": 1.34,
       "capped": null
     },
     "late_cycle": {
       "status": "ACTIVE",
-      "hy": 363,
+      "hy": 372,
       "hy_threshold": 350.0,
-      "yc": 0.29,
+      "yc": 0.28,
       "yc_threshold": 0.3,
       "desc": "LATE_CYCLE: HY 350bp \uc774\uc0c1 \uadf8\ub9ac\uace0 2s10s 0.3% \ubbf8\ub9cc \u2192 \ub9e4\ub3c4 \uac00\uc911\uce58 1.10x, \ub9e4\uc218 0.95x"
     },
-    "fg_provisional": false,
+    "fg_provisional": true,
     "fg_debug": {
-      "fetched_utc": "2026-11-25T05:03:21.221859+00:00",
-      "top_score": 17.4,
-      "top_timestamp": "2026-11-24T23:59:52+00:00",
-      "top_previous_close": 17.0,
+      "fetched_utc": "2026-11-25T22:28:41.243478+00:00",
+      "top_score": 15.2,
+      "top_timestamp": "2026-11-25T22:07:32+00:00",
+      "top_previous_close": 17.4,
       "last_points": [
         {
-          "t_utc": "2026-11-23T00:00",
-          "v": 14.9
-        },
-        {
           "t_utc": "2026-11-24T00:00",
-          "v": 17.4
+          "v": 11.0
         },
         {
-          "t_utc": "2026-11-24T23:59",
-          "v": 17.4
+          "t_utc": "2026-11-25T00:00",
+          "v": 15.2
+        },
+        {
+          "t_utc": "2026-11-25T22:07",
+          "v": 15.2
         }
       ]
     }
@@ -248,7 +248,7 @@
     "long_term_missing": [],
     "missing_tickers": [],
     "lagging_tickers": [],
-    "intraday_excluded": true,
+    "intraday_excluded": false,
     "trend_missing": []
   }
 }
