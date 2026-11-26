@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-25T22:40:05.406227+00:00",
+  "timestamp": "2026-11-26T04:13:34.363554+00:00",
   "short_term": {
-    "timestamp": "2026-11-25T22:40:05.405687+00:00",
+    "timestamp": "2026-11-26T04:13:34.363156+00:00",
     "level": "SHIFT_UP",
     "score": 4,
     "buy_score": 4,
@@ -66,8 +66,8 @@
       "HYG_5d_chg": -0.16960845430460392,
       "XLP_XLY_ratio": 0.7855988146223333,
       "XLP_XLY_20d_chg": 4.333390775761137,
-      "DXY": 103.70500183105469,
-      "DXY_20d_chg": 1.4825319047400143,
+      "DXY": 103.81700134277344,
+      "DXY_20d_chg": 1.5921311894478984,
       "TNX": 4.8480000495910645,
       "TNX_5d_chg_bp": -21.79999351501465,
       "KRE": 69.83000183105469,
@@ -183,7 +183,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-25T22:28:41.265866+00:00",
+    "timestamp": "2026-11-26T04:09:32.113233+00:00",
     "level": "WATCH",
     "score": 2.66,
     "regime": "LATE_CYCLE",
@@ -219,9 +219,9 @@
     },
     "fg_provisional": true,
     "fg_debug": {
-      "fetched_utc": "2026-11-25T22:28:41.243478+00:00",
+      "fetched_utc": "2026-11-26T04:09:32.106759+00:00",
       "top_score": 15.2,
-      "top_timestamp": "2026-11-25T22:07:32+00:00",
+      "top_timestamp": "2026-11-25T23:59:57+00:00",
       "top_previous_close": 17.4,
       "last_points": [
         {
@@ -233,7 +233,7 @@
           "v": 15.2
         },
         {
-          "t_utc": "2026-11-25T22:07",
+          "t_utc": "2026-11-25T23:59",
           "v": 15.2
         }
       ]
@@ -243,7 +243,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.2,
+    "long_term_age_h": 0.1,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
