@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-11-26T04:45:05.190001+00:00",
+  "timestamp": "2026-11-26T22:30:01.892412+00:00",
   "short_term": {
-    "timestamp": "2026-11-26T04:45:05.189604+00:00",
-    "level": "SHIFT_UP",
-    "score": 4,
-    "buy_score": 4,
+    "timestamp": "2026-11-26T22:30:01.892049+00:00",
+    "level": "CAUTION_UP",
+    "score": 3,
+    "buy_score": 3,
     "sell_score": -7,
     "pillars": {
       "A_price_momentum": 3,
@@ -18,8 +18,8 @@
         "weight": 2
       },
       {
-        "name": "VIX/VIX3M > 1.05 (deep BW)",
-        "weight": 2
+        "name": "VIX/VIX3M > 1.0 (BW)",
+        "weight": 1
       }
     ],
     "triggers_sell": [
@@ -46,6 +46,13 @@
         "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
         "desc": "SOXX 20\uc77c -26.4% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
         "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
+      },
+      {
+        "id": "vix9d_bw",
+        "level": "medium",
+        "title": "\ub2e8\uae30 \ubc31\uc6cc\ub370\uc774\uc158",
+        "desc": "VIX9D/VIX = 1.10 (\ub2e8\uae30 \ud328\ub2c9 \uc784\ubc15)",
+        "backtest": "\ub2e8\ub3c5 \ud6a8\uacfc \uc57d\ud568 (\ucc38\uace0\uc6a9)"
       }
     ],
     "indicators": {
@@ -54,20 +61,20 @@
       "SPX_20d_chg": -7.246922083062124,
       "SPX_pct_above_MA50": -5.52115136103547,
       "SPX_pct_above_MA200": -2.308212003928012,
-      "VIX": 28.290000915527344,
-      "VIX_5d_chg": 15.187302649405154,
+      "VIX": 26.799999237060547,
+      "VIX_5d_chg": -5.766530471872278,
       "VIX3M": 26.290000915527344,
-      "VIX_VIX3M_ratio": 1.076074550412768,
+      "VIX_VIX3M_ratio": 1.0193989465109523,
       "VIX9D": 29.610000610351562,
-      "VIX9D_VIX_ratio": 1.0466595847333366,
+      "VIX9D_VIX_ratio": 1.1048508004957398,
       "VVIX": 115.37999725341797,
       "SKEW": 142.05999755859375,
       "HYG": 76.5199966430664,
       "HYG_5d_chg": -0.16960845430460392,
       "XLP_XLY_ratio": 0.7855988146223333,
       "XLP_XLY_20d_chg": 4.333390775761137,
-      "DXY": 103.80000305175781,
-      "DXY_20d_chg": 1.5754971835671538,
+      "DXY": 103.77799987792969,
+      "DXY_20d_chg": 1.7032525938931897,
       "TNX": 4.8480000495910645,
       "TNX_5d_chg_bp": -21.79999351501465,
       "KRE": 69.83000183105469,
@@ -77,8 +84,8 @@
       "IWM_SPX_20d_chg": 3.0527778389443316,
       "SOXX": 127.9800033569336,
       "SOXX_20d_chg": -26.43981693311663,
-      "NDX": 26046.896484375,
-      "RUT": 2704.06103515625
+      "NDX": 26046.900390625,
+      "RUT": 2704.06005859375
     },
     "backtest": {
       "PANIC_BUY": {
@@ -183,7 +190,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-26T04:29:13.179702+00:00",
+    "timestamp": "2026-11-26T22:18:52.843795+00:00",
     "level": "WATCH",
     "score": 2.66,
     "regime": "LATE_CYCLE",
@@ -192,14 +199,14 @@
     "spx_ma200": 7352,
     "ixic": 23586,
     "ixic_high": 27600,
-    "vix": 28.3,
-    "vix_3m": 18.4,
-    "vix_3m_ago": 14.9,
+    "vix": 26.8,
+    "vix_3m": 18.6,
+    "vix_3m_ago": 16.3,
     "fg": 15,
-    "fg_1m_ago": 30,
+    "fg_1m_ago": 33,
     "rsi_w": 36.8,
     "hy": 372,
-    "hy_6m_ago": 272,
+    "hy_6m_ago": 271,
     "yc": 0.28,
     "missing": [],
     "intraday_excluded": false,
@@ -219,22 +226,22 @@
     },
     "fg_provisional": true,
     "fg_debug": {
-      "fetched_utc": "2026-11-26T04:29:13.174922+00:00",
-      "top_score": 15.2,
-      "top_timestamp": "2026-11-25T23:59:57+00:00",
-      "top_previous_close": 17.4,
+      "fetched_utc": "2026-11-26T22:18:52.839116+00:00",
+      "top_score": 15.0,
+      "top_timestamp": "2026-11-26T01:59:59+00:00",
+      "top_previous_close": 15.2,
       "last_points": [
         {
-          "t_utc": "2026-11-24T00:00",
-          "v": 11.0
-        },
-        {
           "t_utc": "2026-11-25T00:00",
-          "v": 15.2
+          "v": 15.6
         },
         {
-          "t_utc": "2026-11-25T23:59",
-          "v": 15.2
+          "t_utc": "2026-11-26T00:00",
+          "v": 15.6
+        },
+        {
+          "t_utc": "2026-11-26T01:59",
+          "v": 15.0
         }
       ]
     }
@@ -243,7 +250,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.3,
+    "long_term_age_h": 0.2,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],

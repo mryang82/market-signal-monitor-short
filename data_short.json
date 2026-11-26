@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-26T04:45:05.189604+00:00",
-  "level": "SHIFT_UP",
-  "score": 4,
-  "buy_score": 4,
+  "timestamp": "2026-11-26T22:30:01.892049+00:00",
+  "level": "CAUTION_UP",
+  "score": 3,
+  "buy_score": 3,
   "sell_score": -7,
   "pillars": {
     "A_price_momentum": 3,
@@ -16,8 +16,8 @@
       "weight": 2
     },
     {
-      "name": "VIX/VIX3M > 1.05 (deep BW)",
-      "weight": 2
+      "name": "VIX/VIX3M > 1.0 (BW)",
+      "weight": 1
     }
   ],
   "triggers_sell": [
@@ -44,6 +44,13 @@
       "title": "\ubc18\ub3c4\uccb4 \uc57d\uc138",
       "desc": "SOXX 20\uc77c -26.4% (\uc704\ud5d8\uc790\uc0b0 \uc120\ud589)",
       "backtest": "\ucc38\uace0 \uc815\ubcf4 \u2014 \ub2e8\ub3c5 \ud6a8\uacfc \uac80\uc99d \uc548 \ub428"
+    },
+    {
+      "id": "vix9d_bw",
+      "level": "medium",
+      "title": "\ub2e8\uae30 \ubc31\uc6cc\ub370\uc774\uc158",
+      "desc": "VIX9D/VIX = 1.10 (\ub2e8\uae30 \ud328\ub2c9 \uc784\ubc15)",
+      "backtest": "\ub2e8\ub3c5 \ud6a8\uacfc \uc57d\ud568 (\ucc38\uace0\uc6a9)"
     }
   ],
   "indicators": {
@@ -52,20 +59,20 @@
     "SPX_20d_chg": -7.246922083062124,
     "SPX_pct_above_MA50": -5.52115136103547,
     "SPX_pct_above_MA200": -2.308212003928012,
-    "VIX": 28.290000915527344,
-    "VIX_5d_chg": 15.187302649405154,
+    "VIX": 26.799999237060547,
+    "VIX_5d_chg": -5.766530471872278,
     "VIX3M": 26.290000915527344,
-    "VIX_VIX3M_ratio": 1.076074550412768,
+    "VIX_VIX3M_ratio": 1.0193989465109523,
     "VIX9D": 29.610000610351562,
-    "VIX9D_VIX_ratio": 1.0466595847333366,
+    "VIX9D_VIX_ratio": 1.1048508004957398,
     "VVIX": 115.37999725341797,
     "SKEW": 142.05999755859375,
     "HYG": 76.5199966430664,
     "HYG_5d_chg": -0.16960845430460392,
     "XLP_XLY_ratio": 0.7855988146223333,
     "XLP_XLY_20d_chg": 4.333390775761137,
-    "DXY": 103.80000305175781,
-    "DXY_20d_chg": 1.5754971835671538,
+    "DXY": 103.77799987792969,
+    "DXY_20d_chg": 1.7032525938931897,
     "TNX": 4.8480000495910645,
     "TNX_5d_chg_bp": -21.79999351501465,
     "KRE": 69.83000183105469,
@@ -75,8 +82,8 @@
     "IWM_SPX_20d_chg": 3.0527778389443316,
     "SOXX": 127.9800033569336,
     "SOXX_20d_chg": -26.43981693311663,
-    "NDX": 26046.896484375,
-    "RUT": 2704.06103515625
+    "NDX": 26046.900390625,
+    "RUT": 2704.06005859375
   },
   "backtest": {
     "PANIC_BUY": {
