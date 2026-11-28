@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-11-27T22:14:02.497508+00:00",
+  "timestamp": "2026-11-28T04:01:30.073920+00:00",
   "short_term": {
-    "timestamp": "2026-11-27T22:14:02.485114+00:00",
+    "timestamp": "2026-11-28T04:01:30.057804+00:00",
     "level": "CAUTION_DOWN",
     "score": -4,
     "buy_score": 0,
@@ -169,7 +169,7 @@
     }
   },
   "long_term": {
-    "timestamp": "2026-11-27T21:56:40.036709+00:00",
+    "timestamp": "2026-11-28T03:54:26.516633+00:00",
     "level": "NEUTRAL",
     "score": 0.38,
     "regime": "LATE_CYCLE",
@@ -205,9 +205,9 @@
     },
     "fg_provisional": true,
     "fg_debug": {
-      "fetched_utc": "2026-11-27T21:56:40.032799+00:00",
+      "fetched_utc": "2026-11-28T03:54:26.509268+00:00",
       "top_score": 24.9,
-      "top_timestamp": "2026-11-27T21:37:45+00:00",
+      "top_timestamp": "2026-11-27T23:59:59+00:00",
       "top_previous_close": 15.6,
       "last_points": [
         {
@@ -219,7 +219,7 @@
           "v": 24.9
         },
         {
-          "t_utc": "2026-11-27T21:37",
+          "t_utc": "2026-11-27T23:59",
           "v": 24.9
         }
       ]
@@ -229,7 +229,7 @@
   "version": "v14",
   "health": {
     "long_term_ok": true,
-    "long_term_age_h": 0.3,
+    "long_term_age_h": 0.1,
     "long_term_stale": false,
     "long_term_missing": [],
     "missing_tickers": [],
